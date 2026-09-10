@@ -37,10 +37,18 @@ A simple software to play midi file in FFXIV Bard performance.
 - [ ] 界面修改，UI迁移至WPF
 
 
-
 ## 已知问题/Known Issue
 
 - 当BPM过高导致的event间隔缩短时，在8key/13key模式下会因为控制键的按下丢失部分音符
 - 已连接的Midi设备异常断开后无法再次断开或选择
 
 
+↑↑↑都是白猫写的，没完成3.0的ToDoList也敢发布3.0.0.0版本阿
+诶！有主意了
+
+## To Do List V4.0 音游计划（相信后人智慧）
+
+- [ ] Midi作为谱面进行解析，游戏内类似ACT浮动界面，以下落式音游形式呈现
+- [ ] Note分为 面条Note和普通Note以及控制Note（高低八度）
+- [ ] 追加AutoMode和AssistMode（自动按下控制Note）
+- [ ] 界面修改，UI迁移至WPF

@@ -46,6 +46,10 @@
 			this.btnKeybinding = new Sunny.UI.UISymbolButton();
 			this.uiSymbolLabel2 = new Sunny.UI.UISymbolLabel();
 			this.uiPanel1 = new Sunny.UI.UIPanel();
+			this.label3 = new System.Windows.Forms.Label();
+			this.label2 = new System.Windows.Forms.Label();
+			this.label1 = new System.Windows.Forms.Label();
+			this.IgnoreVolNud = new Sunny.UI.UIIntegerUpDown();
 			this.DispartNud = new Sunny.UI.UIIntegerUpDown();
 			this.uiPanel4 = new Sunny.UI.UIPanel();
 			this.uiIntegerUpDown1 = new Sunny.UI.UIIntegerUpDown();
@@ -59,10 +63,6 @@
 			this.updChordMinMs = new Sunny.UI.UIIntegerUpDown();
 			this.uiLine1 = new Sunny.UI.UILine();
 			this.uiToolTip1 = new Sunny.UI.UIToolTip(this.components);
-			this.IgnoreVolNud = new Sunny.UI.UIIntegerUpDown();
-			this.label1 = new System.Windows.Forms.Label();
-			this.label2 = new System.Windows.Forms.Label();
-			this.label3 = new System.Windows.Forms.Label();
 			this.uiPanel3.SuspendLayout();
 			this.uiPanel2.SuspendLayout();
 			this.uiPanel1.SuspendLayout();
@@ -389,6 +389,55 @@
 			this.uiPanel1.Text = null;
 			this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// label3
+			// 
+			this.label3.AutoSize = true;
+			this.label3.Location = new System.Drawing.Point(47, 65);
+			this.label3.Name = "label3";
+			this.label3.Size = new System.Drawing.Size(106, 21);
+			this.label3.TabIndex = 42;
+			this.label3.Text = "音符最小间隔";
+			// 
+			// label2
+			// 
+			this.label2.AutoSize = true;
+			this.label2.Location = new System.Drawing.Point(47, 91);
+			this.label2.Name = "label2";
+			this.label2.Size = new System.Drawing.Size(106, 21);
+			this.label2.TabIndex = 42;
+			this.label2.Text = "和弦打包间隔";
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(31, 117);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(122, 21);
+			this.label1.TabIndex = 41;
+			this.label1.Text = "应忽略力度按键";
+			// 
+			// IgnoreVolNud
+			// 
+			this.IgnoreVolNud.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
+			this.IgnoreVolNud.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
+			this.IgnoreVolNud.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.IgnoreVolNud.Location = new System.Drawing.Point(160, 117);
+			this.IgnoreVolNud.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+			this.IgnoreVolNud.Maximum = 128;
+			this.IgnoreVolNud.Minimum = 0;
+			this.IgnoreVolNud.MinimumSize = new System.Drawing.Size(100, 0);
+			this.IgnoreVolNud.Name = "IgnoreVolNud";
+			this.IgnoreVolNud.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
+			this.IgnoreVolNud.ShowText = false;
+			this.IgnoreVolNud.Size = new System.Drawing.Size(100, 25);
+			this.IgnoreVolNud.Step = 5;
+			this.IgnoreVolNud.Style = Sunny.UI.UIStyle.Colorful;
+			this.IgnoreVolNud.TabIndex = 40;
+			this.IgnoreVolNud.Text = "uiIntegerUpDown2";
+			this.IgnoreVolNud.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+			this.uiToolTip1.SetToolTip(this.IgnoreVolNud, "忽略按键力度较低的输入，用来防误触。");
+			this.IgnoreVolNud.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.IgnoreVolNud_ValueChanged);
+			// 
 			// DispartNud
 			// 
 			this.DispartNud.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
@@ -615,54 +664,6 @@
 			this.uiToolTip1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(54)))), ((int)(((byte)(54)))), ((int)(((byte)(54)))));
 			this.uiToolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
 			this.uiToolTip1.OwnerDraw = true;
-			// 
-			// IgnoreVolNud
-			// 
-			this.IgnoreVolNud.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
-			this.IgnoreVolNud.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
-			this.IgnoreVolNud.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.IgnoreVolNud.Location = new System.Drawing.Point(160, 117);
-			this.IgnoreVolNud.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-			this.IgnoreVolNud.Maximum = 128;
-			this.IgnoreVolNud.Minimum = 0;
-			this.IgnoreVolNud.MinimumSize = new System.Drawing.Size(100, 0);
-			this.IgnoreVolNud.Name = "IgnoreVolNud";
-			this.IgnoreVolNud.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.IgnoreVolNud.ShowText = false;
-			this.IgnoreVolNud.Size = new System.Drawing.Size(100, 25);
-			this.IgnoreVolNud.Step = 5;
-			this.IgnoreVolNud.Style = Sunny.UI.UIStyle.Colorful;
-			this.IgnoreVolNud.TabIndex = 40;
-			this.IgnoreVolNud.Text = "uiIntegerUpDown2";
-			this.IgnoreVolNud.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.uiToolTip1.SetToolTip(this.IgnoreVolNud, "忽略按键力度较低的输入，用来防误触。");
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(31, 117);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(122, 21);
-			this.label1.TabIndex = 41;
-			this.label1.Text = "应忽略力度按键";
-			// 
-			// label2
-			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(47, 91);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(106, 21);
-			this.label2.TabIndex = 42;
-			this.label2.Text = "和弦打包间隔";
-			// 
-			// label3
-			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(47, 65);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(106, 21);
-			this.label3.TabIndex = 42;
-			this.label3.Text = "音符最小间隔";
 			// 
 			// SettingPage
 			// 

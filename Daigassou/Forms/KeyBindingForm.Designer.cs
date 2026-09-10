@@ -164,9 +164,9 @@
             "不使用",
             "将音域外映射到最近的八度",
             "将音域外的两个八度增减16度"});
-			this.Use88.Location = new System.Drawing.Point(800, 113);
+			this.Use88.Location = new System.Drawing.Point(691, 149);
 			this.Use88.Name = "Use88";
-			this.Use88.Size = new System.Drawing.Size(121, 29);
+			this.Use88.Size = new System.Drawing.Size(248, 29);
 			this.Use88.TabIndex = 46;
 			this.Use88.SelectedIndexChanged += new System.EventHandler(this.Use88_SelectedIndexChanged);
 			// 

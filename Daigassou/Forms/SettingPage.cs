@@ -37,6 +37,7 @@ namespace Daigassou.Forms
             updChordMinMs.Value = (int) Settings.Default.MinChordMs;
             updIntervalMinMs.Value = (int) Settings.Default.MinEventMs;
             DispartNud.Value = (int) Settings.Default.DispartMs;
+            IgnoreVolNud.Value = (int) Settings.Default.IgnoreVol;
 			swEnableAnalyze.Active = Settings.Default.isUsingAnalysis;
             swEnableGuitarKey.Active = Settings.Default.isUsingGuitarKey;
             swUsingPcap.Active = Settings.Default.isUsingWinPCap;
@@ -176,6 +177,12 @@ namespace Daigassou.Forms
 			Settings.Default.DispartMs = value;
 			Settings.Default.Save();
 			Input_Midi.KeyboardUtilities.batcher.SetWindowSize(value);
+		}
+
+		private void IgnoreVolNud_ValueChanged(object sender, int value)
+		{
+			Settings.Default.IgnoreVol = value;
+			Settings.Default.Save();
 		}
 	}
 }

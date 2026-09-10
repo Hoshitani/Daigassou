@@ -88,7 +88,7 @@ namespace Daigassou.Input_Midi
             switch (e.Event)
             {
                 case NoteOnEvent @event:
-					Debug.WriteLine($"{@event.NoteNumber}\t{@event.Velocity}\ton");
+					Debug.WriteLine($"按下\t{@event.NoteNumber}\t{@event.Velocity}");
 					if (@event.Velocity < Settings.Default.IgnoreVol) break;//响度低的忽略
 					batcher.OnEvent(@event);
 					//noteQueue.Enqueue(@event);
@@ -96,7 +96,7 @@ namespace Daigassou.Input_Midi
                 case NoteOffEvent @event:
 					batcher.OnEvent(@event);//不敢加入队列就是怕同一个音再被演奏一次的时候，出现一个键被按下，又要按一遍的情况。要不……每次按下之前先松开一遍？
 					//KeyOff[@event.NoteNumber - 24] = true;
-					Debug.WriteLine($"{@event.NoteNumber}\toff");
+					Debug.WriteLine($"抬起\t{@event.NoteNumber}");//有时候会漏信息，估计和midi数据传输的线有关？
 					//noteQueue.Enqueue(@event);
 					break;
             }
@@ -162,25 +162,38 @@ namespace Daigassou.Input_Midi
 					//}//等待被挪到batcher.Dequeue()里了。
 					Queue<NoteEvent> queue = new Queue<NoteEvent>();
 					var batch = batcher.Dequeue().OrderBy(x=>x.NoteNumber).ToList();
+					var Release = batch.FindAll(x => x.Velocity == 0);
+					batch = batch.FindAll(x => x.Velocity > 0).ToList();
 					var Left=batch.FindAll(x => x.NoteNumber>batch[0].NoteNumber&& x.NoteNumber <= batch[0].NoteNumber + 12);
 					var Right = batch.FindAll(x => x.NoteNumber > batch[0].NoteNumber + 12);
-					queue.Enqueue(batch.First());//先弹最低音
+					if(batch.Count>0)queue.Enqueue(batch.First());//先弹最低音
 					foreach (var r in Right) queue.Enqueue(r);//再弹右手
 					foreach (var l in Left) queue.Enqueue(l);//再弹其余的左手
 					//如果同时演奏高音区域和低音区域的话，高音区域很可能是主旋律。应该优先弹高音区域再弹低音区域？
 					//问题出在这个“很可能”。如何判定？
 					//其实可以猜测手的位置，最高音-8度和最低音+8度就是一只手（因人而异，要加个选项吗😓）能跨越的最大范围，从而区分出来左右手是哪些键。优先弹最低音，高音区，其余的低音？
-					
+					foreach (var l in Release) queue.Enqueue(l);//再处理放开
+
 					bool[] array = new bool[37];//还要注意一个问题：如果queue里有两个键映射到了37键的同一个键，那么应当去掉一个。
+					//Debug.WriteLine("\r\nBatch————");
 					foreach (var nextKey in queue)
 					{
 						int number = nextKey.NoteNumber;
+						Debug.Write("\r\n"+number);
 						var npitch = ProcessKeyController.PitchExchange(number + offset);//实际要按的键是npitch,npitch-48在0~37
+						if (npitch == 0) continue;
 						switch (nextKey)
 						{
 							case NoteOnEvent keyon:
-								if (array[npitch - 48]) continue;//在本次打包的队列里已经存在了，不应再按下一次。
-								array[npitch - 48] = true;
+								if (npitch - 48 < 37)//npitch是102……
+								{
+									if (array[npitch - 48])
+									{
+										Debug.Write("\t同音\r\n");
+										continue;//在本次打包的队列里已经存在了，不应再按下一次。
+									}
+									array[npitch - 48] = true;
+								}
 								NoteOn(number,npitch);
 								Thread.Sleep(minimumInterval);
 								//有时候会收到莫名其妙的信号，明明没有按那个键。
@@ -190,6 +203,7 @@ namespace Daigassou.Input_Midi
 								//Thread.Sleep(minimumInterval);//等按键抬起会影响之后的输入？不等了吧。
 								break;
 						}
+						Debug.WriteLine("");
 					}
 					//MidiKeyboard_EventReceived需要以一个间隔（通过设置调整）来打包数据，将打包期间的按键拆解成琶音逐个输出。处理完一个包后就立刻处理下一个包，这也许可以解决琶音被拆散到两个包的情况。
 					//会导致响应不及时吗？应该以第一个输入作为打包起点，一段时间没有输入就停止打包，回到等待第一个输入的状态。
@@ -204,11 +218,13 @@ namespace Daigassou.Input_Midi
 				if (Note_37 <48||Note_37>84) return;
 				if (Map[Note_37 - 48] > 0)//对应的37键被按下了，先抬起它
 				{
+					Debug.Write("\t已被按下");
 					NoteOff(Map[Note_37 - 48],Note_37);//拿着当时按下的键 值去抬就好了。
+					Thread.Sleep((int)Settings.Default.MinEventMs);
 				}
 				//if (Pressing[pitch - 24]) NoteOff(pitch - 24);//如果这个键被按下，就先抬起再按。 1351
 				ProcessKeyController.GetInstance().PressKeyBoardByPitch(Note_37);
-				Pressing[OriginNote+offset - 24] = true;
+				if(OriginNote+offset-24<Pressing.Length)Pressing[OriginNote+offset - 24] = true;
 				Map[Note_37 - 48] = OriginNote;
 			}
         }
@@ -217,8 +233,19 @@ namespace Daigassou.Input_Midi
         {
 			lock (NoteOfflock)
 			{
-				if (!Pressing[OriginNote - 24]) return;//如果已经没在按了就不处理，免得程序感到疑惑，为什么一个按键抬起了两次。
-				Pressing[OriginNote - 24] = false;
+				if (OriginNote + offset - 24 < Pressing.Length)
+				{
+					if (!Pressing[OriginNote - 24])
+					{
+						Debug.Write("\t已被松开");//可能是按键力度太低被忽略
+						return;//如果已经没在按了就不处理，免得程序感到疑惑，为什么一个按键抬起了两次。
+					}
+					if (OriginNote + offset - 24 < Pressing.Length)
+					{
+						Debug.Write("\t松开");
+						Pressing[OriginNote - 24] = false;
+					}
+				}
 				ProcessKeyController.GetInstance().ReleaseKeyBoardByPitch(Note_37);
 				if (Note_37 >= 48) Map[Note_37 - 48] = 0;
 			}

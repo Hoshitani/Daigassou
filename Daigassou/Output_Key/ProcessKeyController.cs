@@ -192,8 +192,7 @@ namespace DaigassouDX.Controller
 						var v = pitch - 24;
 						if (v < 0) return 0;
 						else if (v < 24) pitch = 48 + v % 12;//将C1~B2映射到C3~B3。
-						else if (v <= 84) pitch = 72 + v % 12;//C6~C8映射到C5~C6。
-						else return 0;
+						else if (v > 60) pitch = 72 + v % 12;//C6~C8映射到C5~C6。
 						/*
 						1	2	3	4	5	6	7	8
 						3	3	3	4	5	6	6	6 ←这样映射，可以避免音高差太多的问题
@@ -217,7 +216,8 @@ namespace DaigassouDX.Controller
 		映射如果只是把低音区域映射到C3~C4，只是把高音区域映射到C5~C6可能不太好。37键的范围是C3~C6。将C1~B2映射到C3~B4好了，C1以下的A0、bB0、B0丢掉，谁会弹这些阿。最高音则是C8，C#6~C8映射到C#4~C6好了？
 						*/
 			}
-			if (pitch < 108 || pitch > 113 || !Settings.Default.isUsingGuitarKey) return 0;
+			if(Settings.Default.isUsingGuitarKey)
+				if (pitch < 108 || pitch > 113) return 0;
 			return pitch;
 		}
         public void PressKeyBoardByPitch(int pitch)

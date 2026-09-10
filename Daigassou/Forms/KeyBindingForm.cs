@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Daigassou.Properties;
 using DaigassouDX.Controller;
 using Sunny.UI;
 
@@ -75,7 +76,8 @@ namespace Daigassou.Forms
                 keyConfig[index + 48] = (int) e.KeyCode;
             else
                 keyConfig[index - 37 + 108] = (int) e.KeyCode;
-        }
+			if (index + 1 < keyBoxes.Length) keyBoxes[index + 1].Focus();//焦点跳到下一个。
+		}
 
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -92,7 +94,8 @@ namespace Daigassou.Forms
                         ProcessKeyController.GetKeyChar((Keys) keypair.Value).ToString();
 
             keyConfig = ProcessKeyController._keymap;
-        }
+			Use88.SelectedIndex = ProcessKeyController.Use88;
+		}
 
         private void btnConfirm_Click(object sender, EventArgs e)
         {
@@ -115,5 +118,10 @@ namespace Daigassou.Forms
         private void KeyBindingForm_FormClosing(object sender, FormClosingEventArgs e)
         {
         }
-    }
+		private void Use88_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Settings.Default.Use88 = ProcessKeyController.Use88 = (byte)Use88.SelectedIndex;
+			Settings.Default.Save();
+		}
+	}
 }

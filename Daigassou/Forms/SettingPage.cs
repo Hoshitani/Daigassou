@@ -36,7 +36,8 @@ namespace Daigassou.Forms
         {
             updChordMinMs.Value = (int) Settings.Default.MinChordMs;
             updIntervalMinMs.Value = (int) Settings.Default.MinEventMs;
-            swEnableAnalyze.Active = Settings.Default.isUsingAnalysis;
+            DispartNud.Value = (int) Settings.Default.DispartMs;
+			swEnableAnalyze.Active = Settings.Default.isUsingAnalysis;
             swEnableGuitarKey.Active = Settings.Default.isUsingGuitarKey;
             swUsingPcap.Active = Settings.Default.isUsingWinPCap;
             swEnableAnalyze.Active = Settings.Default.isUsingAnalysis;
@@ -169,5 +170,12 @@ namespace Daigassou.Forms
         {
             Process.Start("https://www.bilibili.com/video/BV1w44y1S7D9");
         }
-    }
+
+		private void DispartNud_ValueChanged(object sender, int value)
+		{
+			Settings.Default.DispartMs = value;
+			Settings.Default.Save();
+			Input_Midi.KeyboardUtilities.batcher.SetWindowSize(value);
+		}
+	}
 }

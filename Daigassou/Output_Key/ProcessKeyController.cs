@@ -15,6 +15,10 @@ namespace DaigassouDX.Controller
     {
         private const int WmKeydown = 0x0100;
         private const int WmKeyup = 0x0101;
+		/// <summary>
+		/// 是否使用88键模式
+		/// </summary>
+		public static byte Use88 = 0;
 
         public static readonly Dictionary<int, int> _initkeymap = new Dictionary<int, int>
         {
@@ -125,7 +129,8 @@ namespace DaigassouDX.Controller
                 {
                     var jsonObject = (Dictionary<int, int>)JsonConvert.DeserializeObject(Settings.Default.KeyBinding, typeof(Dictionary<int, int>));
                     _keymap = jsonObject;
-                }
+					Use88 = Settings.Default.Use88;
+				}
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
@@ -171,19 +176,70 @@ namespace DaigassouDX.Controller
         {
             foreach (var item in _keymap) ReleaseKeyBoardByPitch(item.Key);
         }
-
-
+		/// <summary>
+		/// 88键映射到37键范围，得到48~84的数字，出错则为0。在使用isUsingGuitarKey的时候还可能输出108~113的数字
+		/// </summary>
+		/// <param name="pitch"></param>
+		/// <returns></returns>
+		public static int PitchExchange(int pitch)
+		{
+			switch (Use88)
+			{
+				default:
+				case 0: break;
+				case 1:
+					{
+						var v = pitch - 24;
+						if (v < 0) return 0;
+						else if (v < 24) pitch = 48 + v % 12;//将C1~B2映射到C3~B3。
+						else if (v <= 84) pitch = 72 + v % 12;//C6~C8映射到C5~C6。
+						else return 0;
+						/*
+						1	2	3	4	5	6	7	8
+						3	3	3	4	5	6	6	6 ←这样映射，可以避免音高差太多的问题
+						*/
+						break;
+					}
+				case 2:
+					{
+						if (pitch < 24) return 0;
+						else if (pitch < 48) pitch += 24;//将C1~B2映射到C3~B4好了
+						else if (pitch <= 84 + 24) pitch -= 24;//84是C6……C#6~C8映射到C#4~C6，超过C8的不知道是什么键
+						else return 0;
+						/*
+						1	2	3	4	5	6	7	8
+						3	4	3	4	5	6	5	6 ←这样映射，可以避免同时弹2、3跨八度跟没跨一样的问题。
+						*/
+						break;
+					}
+					/*
+	接入88键的键盘，为37键之外的按键重新映射到37键上。然后要注意当重新映射后的键也在被按下时，应当只响应一次。
+		映射如果只是把低音区域映射到C3~C4，只是把高音区域映射到C5~C6可能不太好。37键的范围是C3~C6。将C1~B2映射到C3~B4好了，C1以下的A0、bB0、B0丢掉，谁会弹这些阿。最高音则是C8，C#6~C8映射到C#4~C6好了？
+						*/
+			}
+			if (pitch < 108 || pitch > 113 || !Settings.Default.isUsingGuitarKey) return 0;
+			return pitch;
+		}
         public void PressKeyBoardByPitch(int pitch)
         {
-            if ((pitch >= 48 && pitch <= 84) || (pitch >= 108 && pitch <= 113 && Settings.Default.isUsingGuitarKey))
-                KeyDownBoardByKey((Keys) _keymap[pitch]);
-
+			if (pitch < 48 || pitch > 84)
+			{
+				pitch = PitchExchange(pitch);
+				if (pitch == 0) return;// 0;
+			}
+            KeyDownBoardByKey((Keys) _keymap[pitch]);
+			//return pitch;
         }
-
-        public void ReleaseKeyBoardByPitch(int pitch)
+		public void ReleaseKeyBoardByPitch(int pitch)
         {
-            if ((pitch >= 48 && pitch <= 84) || (pitch >= 108 && pitch <= 113 && Settings.Default.isUsingGuitarKey))
-                KeyUpBoardByKey((Keys) _keymap[pitch]);
+			//if ((pitch >= 48 && pitch <= 84) || (pitch >= 108 && pitch <= 113 && Settings.Default.isUsingGuitarKey))
+			if (pitch < 48 || pitch > 84)
+			{
+				pitch = PitchExchange(pitch);
+				if (pitch == 0) return;
+			}
+			KeyUpBoardByKey((Keys) _keymap[pitch]);
+			//return pitch;
         }
 
         public void KeyDownBoardByKey(Keys viKeys)

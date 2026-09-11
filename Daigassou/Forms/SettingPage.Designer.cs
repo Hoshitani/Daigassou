@@ -46,6 +46,8 @@
 			this.btnKeybinding = new Sunny.UI.UISymbolButton();
 			this.uiSymbolLabel2 = new Sunny.UI.UISymbolLabel();
 			this.uiPanel1 = new Sunny.UI.UIPanel();
+			this.IgnoreOnOff = new Sunny.UI.UISwitch();
+			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -142,7 +144,6 @@
 			this.tbNTPServerAddr.Style = Sunny.UI.UIStyle.Colorful;
 			this.tbNTPServerAddr.TabIndex = 40;
 			this.tbNTPServerAddr.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
-			this.uiToolTip1.SetToolTip(this.tbNTPServerAddr, "为了保证合奏时每个计算机的时间一致，需要使用NTP协议进行时间校准。一般不用改");
 			this.tbNTPServerAddr.Watermark = "";
 			this.tbNTPServerAddr.TextChanged += new System.EventHandler(this.tbNTPServerAddr_TextChanged);
 			// 
@@ -160,7 +161,6 @@
 			this.uiSymbolLabel7.SymbolSize = 26;
 			this.uiSymbolLabel7.TabIndex = 39;
 			this.uiSymbolLabel7.Text = "NTP服务器";
-			this.uiToolTip1.SetToolTip(this.uiSymbolLabel7, "为了保证合奏时每个计算机的时间一致，需要使用NTP协议进行时间校准。一般不用改");
 			// 
 			// swUsingPcap
 			// 
@@ -173,7 +173,6 @@
 			this.swUsingPcap.Style = Sunny.UI.UIStyle.Colorful;
 			this.swUsingPcap.TabIndex = 37;
 			this.swUsingPcap.Text = "uiSwitch1";
-			this.uiToolTip1.SetToolTip(this.swUsingPcap, "使用WinPcap库抓包，需要额外安装支持库。");
 			this.swUsingPcap.ValueChanged += new Sunny.UI.UISwitch.OnValueChanged(this.swUsingPcap_ValueChanged);
 			// 
 			// uiSymbolLabel5
@@ -190,7 +189,6 @@
 			this.uiSymbolLabel5.SymbolSize = 26;
 			this.uiSymbolLabel5.TabIndex = 37;
 			this.uiSymbolLabel5.Text = "使用PCAP解析";
-			this.uiToolTip1.SetToolTip(this.uiSymbolLabel5, "使用WinPcap库抓包，需要额外安装支持库。");
 			// 
 			// uiSymbolLabel3
 			// 
@@ -237,7 +235,6 @@
 			this.uiLine3.TabIndex = 44;
 			this.uiLine3.Text = "合奏设定";
 			this.uiLine3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.uiToolTip1.SetToolTip(this.uiLine3, "不要动，除非你知道你在做什么");
 			// 
 			// uiLine2
 			// 
@@ -357,10 +354,11 @@
 			this.uiSymbolLabel2.SymbolSize = 26;
 			this.uiSymbolLabel2.TabIndex = 28;
 			this.uiSymbolLabel2.Text = "和弦最小间隔";
-			this.uiToolTip1.SetToolTip(this.uiSymbolLabel2, "和弦改成琶音时的两音间隔\r\n在乐谱解析关闭时无效\r\n数值越小，和弦感越强\r\n小于50时对演奏理论无影响");
 			// 
 			// uiPanel1
 			// 
+			this.uiPanel1.Controls.Add(this.IgnoreOnOff);
+			this.uiPanel1.Controls.Add(this.label4);
 			this.uiPanel1.Controls.Add(this.label3);
 			this.uiPanel1.Controls.Add(this.label2);
 			this.uiPanel1.Controls.Add(this.label1);
@@ -388,6 +386,28 @@
 			this.uiPanel1.TabIndex = 42;
 			this.uiPanel1.Text = null;
 			this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// IgnoreOnOff
+			// 
+			this.IgnoreOnOff.ActiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
+			this.IgnoreOnOff.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.IgnoreOnOff.Location = new System.Drawing.Point(404, 103);
+			this.IgnoreOnOff.MinimumSize = new System.Drawing.Size(1, 1);
+			this.IgnoreOnOff.Name = "IgnoreOnOff";
+			this.IgnoreOnOff.Size = new System.Drawing.Size(70, 25);
+			this.IgnoreOnOff.Style = Sunny.UI.UIStyle.Colorful;
+			this.IgnoreOnOff.TabIndex = 43;
+			this.IgnoreOnOff.Text = "uiSwitch1";
+			this.IgnoreOnOff.ValueChanged += new Sunny.UI.UISwitch.OnValueChanged(this.IgnoreOnOff_ValueChanged);
+			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Location = new System.Drawing.Point(276, 105);
+			this.label4.Name = "label4";
+			this.label4.Size = new System.Drawing.Size(122, 21);
+			this.label4.TabIndex = 42;
+			this.label4.Text = "混淆按下与抬起";
 			// 
 			// label3
 			// 
@@ -435,7 +455,6 @@
 			this.IgnoreVolNud.TabIndex = 40;
 			this.IgnoreVolNud.Text = "uiIntegerUpDown2";
 			this.IgnoreVolNud.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.uiToolTip1.SetToolTip(this.IgnoreVolNud, "忽略按键力度较低的输入，用来防误触。");
 			this.IgnoreVolNud.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.IgnoreVolNud_ValueChanged);
 			// 
 			// DispartNud
@@ -457,7 +476,6 @@
 			this.DispartNud.TabIndex = 39;
 			this.DispartNud.Text = "uiIntegerUpDown2";
 			this.DispartNud.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.uiToolTip1.SetToolTip(this.DispartNud, "同时按下多个按键时，从第一个按键按下后每多久打一个包进行和弦拆分");
 			this.DispartNud.Value = 50;
 			this.DispartNud.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.DispartNud_ValueChanged);
 			// 
@@ -545,8 +563,6 @@
 			this.uiSwitch1.Style = Sunny.UI.UIStyle.Colorful;
 			this.uiSwitch1.TabIndex = 38;
 			this.uiSwitch1.Text = "uiSwitch1";
-			this.uiToolTip1.SetToolTip(this.uiSwitch1, "歌词功能使用说明\r\n  1.需要lrc文件与midi同名且放置在同一目录下\r\n  2目前仅支持发送到说话频道\r\n  3.需要选择midi文件和轨道，建议制作一条仅" +
-        "有两个音的轨道\r\n  4.歌词开始时间=midi开始播放时间，暂时不需要调整延迟");
 			this.uiSwitch1.ValueChanged += new Sunny.UI.UISwitch.OnValueChanged(this.uiSwitch1_ValueChanged);
 			// 
 			// uiLinkLabel1
@@ -584,7 +600,6 @@
 			this.updIntervalMinMs.TabIndex = 31;
 			this.updIntervalMinMs.Text = "uiIntegerUpDown2";
 			this.updIntervalMinMs.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.uiToolTip1.SetToolTip(this.updIntervalMinMs, "任意两音符间的输出间隔\r\n帧率高，配置强可以适当调小\r\n帧率低，配置差可以适当调高\r\n数值小于50时对演奏无影响，仅为让游戏能够采集到输入");
 			this.updIntervalMinMs.Value = 10;
 			this.updIntervalMinMs.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.updIntervalMinMs_ValueChanged);
 			// 
@@ -602,8 +617,6 @@
 			this.uiSymbolLabel4.SymbolSize = 26;
 			this.uiSymbolLabel4.TabIndex = 33;
 			this.uiSymbolLabel4.Text = "启用乐谱解析";
-			this.uiToolTip1.SetToolTip(this.uiSymbolLabel4, "乐谱解析会在演奏前预处理MIdi文件，主要功能为\r\n1. 清除掉小于7ms的音符，这类音符一般视作软件或转换过程中产生的杂音\r\n2. 将所有和弦拆分成向上琶音\r\n" +
-        "3.对于单个音符连点的情况，进行特殊处理以适应游戏机制\r\n关掉解析后将原封不动的演奏midi内容，可能造成和弦出错，漏音情况。");
 			// 
 			// swEnableAnalyze
 			// 
@@ -616,8 +629,6 @@
 			this.swEnableAnalyze.Style = Sunny.UI.UIStyle.Colorful;
 			this.swEnableAnalyze.TabIndex = 32;
 			this.swEnableAnalyze.Text = "uiSwitch1";
-			this.uiToolTip1.SetToolTip(this.swEnableAnalyze, "乐谱解析会在演奏前预处理MIdi文件，主要功能为\r\n1. 清除掉小于7ms的音符，这类音符一般视作软件或转换过程中产生的杂音\r\n2. 将所有和弦拆分成向上琶音\r\n" +
-        "3.对于单个音符连点的情况，进行特殊处理以适应游戏机制\r\n关掉解析后将原封不动的演奏midi内容，可能造成和弦出错，漏音情况。");
 			this.swEnableAnalyze.ValueChanged += new Sunny.UI.UISwitch.OnValueChanged(this.swEnableAnalyze_ValueChanged);
 			// 
 			// updChordMinMs
@@ -639,7 +650,6 @@
 			this.updChordMinMs.TabIndex = 31;
 			this.updChordMinMs.Text = "uiIntegerUpDown2";
 			this.updChordMinMs.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.uiToolTip1.SetToolTip(this.updChordMinMs, "和弦改成琶音时的两音间隔\r\n在乐谱解析关闭时无效\r\n数值越小，和弦感越强\r\n小于50时对演奏理论无影响");
 			this.updChordMinMs.Value = 10;
 			this.updChordMinMs.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.updChordMinMs_ValueChanged);
 			// 
@@ -725,5 +735,7 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private Sunny.UI.UIIntegerUpDown IgnoreVolNud;
+		private Sunny.UI.UISwitch IgnoreOnOff;
+		private System.Windows.Forms.Label label4;
 	}
 }

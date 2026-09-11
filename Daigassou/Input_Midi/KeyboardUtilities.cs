@@ -94,9 +94,9 @@ namespace Daigassou.Input_Midi
 					//noteQueue.Enqueue(@event);
                     break;
                 case NoteOffEvent @event:
+					Debug.WriteLine($"抬起\t{@event.NoteNumber}");//有时候会漏信息，估计和midi数据传输的线有关？
 					batcher.OnEvent(@event);//不敢加入队列就是怕同一个音再被演奏一次的时候，出现一个键被按下，又要按一遍的情况。要不……每次按下之前先松开一遍？
 					//KeyOff[@event.NoteNumber - 24] = true;
-					Debug.WriteLine($"抬起\t{@event.NoteNumber}");//有时候会漏信息，估计和midi数据传输的线有关？
 					//noteQueue.Enqueue(@event);
 					break;
             }

@@ -16,8 +16,9 @@ namespace Daigassou
 		private int _isWindowActive = 0;
 
 		// 当前窗口的累积缓冲区（仅窗口线程访问，无需锁）
-		private readonly List<T> _currentBuffer = new();
-		private readonly object _bufferLock = new(); // 保护 List 的读写交错
+		private readonly ConcurrentQueue<T> _currentBuffer = new();
+		//private readonly object _bufferLock = new(); // 保护 List 的读写交错
+		//把锁拆了，会提高响应效果吗？
 
 		// 可选：处理完成回调或手动取出
 		public event Action<T[]>? BatchReady;
@@ -49,9 +50,9 @@ namespace Daigassou
 			}
 
 			// 累积数据（窗口激活期间，定时器回调与事件回调可能并发，需加锁保护 List）
-			lock (_bufferLock)
+			//lock (_bufferLock)
 			{
-				_currentBuffer.Add(data);
+				_currentBuffer.Enqueue(data);
 			}
 		}
 
@@ -60,13 +61,13 @@ namespace Daigassou
 			T[] batch;
 			bool hasData;
 
-			lock (_bufferLock)
+			//lock (_bufferLock)
 			{
 				hasData = _currentBuffer.Count > 0;
 				if (hasData)
 				{
 					batch = _currentBuffer.ToArray();
-					_currentBuffer.Clear();
+					for(int i=0;i<batch.Length;i++) _currentBuffer.TryDequeue(out _);
 				}
 				else
 				{
@@ -93,7 +94,7 @@ namespace Daigassou
 				// 更安全的做法：先改状态，再检查一次 buffer（双检查）
 				Interlocked.Exchange(ref _isWindowActive, 0);
 
-				lock (_bufferLock)
+				//lock (_bufferLock)
 				{
 					// 如果改状态后恰好有新数据进来（OnEvent 已把状态改为 1 并写入数据）
 					// 但由于 OnEvent 是先改状态再写数据，这里改回 0 后，新事件会再次启动定时器

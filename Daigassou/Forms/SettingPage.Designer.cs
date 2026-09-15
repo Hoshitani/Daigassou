@@ -425,7 +425,7 @@
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(106, 21);
 			this.label2.TabIndex = 42;
-			this.label2.Text = "和弦打包间隔";
+			this.label2.Text = "和弦合并间隔";
 			// 
 			// label1
 			// 
@@ -455,6 +455,7 @@
 			this.IgnoreVolNud.TabIndex = 40;
 			this.IgnoreVolNud.Text = "uiIntegerUpDown2";
 			this.IgnoreVolNud.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+			this.IgnoreVolNud.Value = 30;
 			this.IgnoreVolNud.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.IgnoreVolNud_ValueChanged);
 			// 
 			// DispartNud
@@ -600,7 +601,7 @@
 			this.updIntervalMinMs.TabIndex = 31;
 			this.updIntervalMinMs.Text = "uiIntegerUpDown2";
 			this.updIntervalMinMs.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.updIntervalMinMs.Value = 10;
+			this.updIntervalMinMs.Value = 30;
 			this.updIntervalMinMs.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.updIntervalMinMs_ValueChanged);
 			// 
 			// uiSymbolLabel4
@@ -650,7 +651,7 @@
 			this.updChordMinMs.TabIndex = 31;
 			this.updChordMinMs.Text = "uiIntegerUpDown2";
 			this.updChordMinMs.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.updChordMinMs.Value = 10;
+			this.updChordMinMs.Value = 30;
 			this.updChordMinMs.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.updChordMinMs_ValueChanged);
 			// 
 			// uiLine1

@@ -12,6 +12,8 @@ using Melanchall.DryWetMidi.Core;
 using Sunny.UI;
 using System.Diagnostics;
 using System.Linq;
+using System.Collections.Concurrent;
+using System.Text;
 
 namespace Daigassou.Input_Midi
 {
@@ -65,7 +67,11 @@ namespace Daigassou.Input_Midi
                         
                         NoteProcess(cts.Token);
                     }, cts.Token);
-                    return true;
+					Task.Run(async () =>
+					{
+						await QueueDeal(cts.Token);
+					});
+					return true;
                 }
                 catch (Exception e)
                 {
@@ -74,6 +80,120 @@ namespace Daigassou.Input_Midi
                 }
             }
         }
+		//其实也没必要打包，检查一个键和下一个键的时间间距，判断要不要一块儿处理就好了。用Queue存起来还是比较好的
+		class NEvent
+		{
+			/// <summary>
+			/// 距离上一个事件的时长
+			/// </summary>
+			public long gap;
+			public int number;//48是C3 C1是24
+			readonly static string[] symbols = ["C", "C#", "D", "bE", "E", "F", "F#", "G", "G#", "A", "bB", "B"];
+			public string Symbol
+			{
+				get
+				{
+					var n = number - 24;
+					var h = 0;
+					if (n > 0) h = (int)Math.Ceiling(n / 12f);
+					else n = n + symbols.Length;
+					return $"{symbols[n%12]}{h}";
+				}
+			}
+			public int Velocity;
+			public bool Off { get { return Velocity == 0; } }
+			MidiEventType eventtype;
+			public byte Channel;
+			public NEvent(NoteEvent e)
+			{
+				gap = e.DeltaTime;
+				eventtype = e.EventType;
+				number = e.NoteNumber;
+				Velocity = e.Velocity;
+				Channel = e.Channel;//一般都是保持为1的……但如果想利用上88键做多乐器的话就不一样了，这需要认真的给88键绑按键，不是映射能解决的问题。
+			}
+			public override string ToString()
+			{
+				return $"{Symbol} {Velocity}";
+			}
+		}
+		static ConcurrentQueue<NEvent> Queue = new ConcurrentQueue<NEvent>();
+		static ConcurrentQueue<NEvent> Dealed = new ConcurrentQueue<NEvent>();
+		/*
+			using (var inputDevice = InputDevice.GetByName("Input MIDI device"))
+			{
+				var recording = new Recording(Melanchall.DryWetMidi.Interaction.TempoMap.Default, inputDevice);
+
+				inputDevice.StartEventsListening();
+				recording.Start();
+				// ...
+
+				recording.Stop();
+
+				var recordedFile = recording.ToFile();
+				recording.Dispose();
+				recordedFile.Write("Recorded data.mid");
+			}
+			//可以存成文件
+		*/
+		static async Task QueueDeal(CancellationToken ct)
+		{
+			/*
+			设计思路：
+			一个后台线程，不断尝试处理队列中的消息。队列消息由MidiKeyboard_EventReceived按先后顺序放入。
+			
+			输入的数据如果立刻输出，不等待任何延迟是最理想的。但人的输入是有时间间隔的，输出也需要有至少10ms的间隔。（关于这个间隔可以测一下，看看最低支持多少间隔。如果稳定60fps，一帧是16ms）
+
+			程序运行开始，如果同时输入5个按键，程序会用数毫秒【处理时间D1】从队列中取出这几个键（因为他们的gap小于一个值），累加他们的gap，得到这些键实际键入的总时间间距【输入时间I】。根据左右手判定制定输出顺序，去除重复按键【处理时间D2】，进行输出，耗时<=Settings.Default.MinChordMs*数量【输出时间O】。原程序在输出后需要等待一个固定时间Settings.Default.MinEventMs【等待时间W】，然后进入下一轮判断。感觉如果要按实际松键时间来处理的话，W就没必要等了，因为人很难在一个短间隔里同时完成按键和松键吧。有的程序会忽略过短的输入（待验证）
+			如果在D1+I+D2+O的时间中，有了新的输入，那么输入需要等到这一轮处理结束才能开始处理。
+			
+			对于80bpm的十六分音符，间隔是0.125s。只要程序处理时间低于这个就不会造成延迟。
+			如果输入间隔刚好卡在Settings.Default.DispartMs之下，又连续有了很多很多按键，可能会导致处理这一瞬间用的时间太长。这一批之后虽然下一个按键的gap不长，但处理到它的时候可能已经过了很长时间了（之前多个按键的gap和输出时间）。为了让听感不那么差，这里应该多等待一会儿吧？也就是把后边的整体输入都往后推，对外展示出相对比较平稳的节奏。
+			
+
+			*/
+			List<NEvent> Package = new List<NEvent>();
+			while (!ct.IsCancellationRequested)
+			{
+				if (!Queue.TryDequeue(out NEvent a))
+				{
+					long TimeSum = 0;
+					Package.Add(a);
+					while(!ct.IsCancellationRequested)
+					{
+						if (Queue.TryPeek(out NEvent next))
+						{
+							if (next.gap < Settings.Default.DispartMs)//小于的都拼起来
+							{
+								TimeSum += next.gap;
+								Package.Add(next);
+								Queue.TryDequeue(out _);
+							}
+							else break;
+						}
+						else break;//没有下一个东西了
+					}
+					StringBuilder sb = new StringBuilder();
+					foreach (var n in Package)
+					{
+						Dealed.Enqueue(n);
+						sb.Append(n.ToString()+"\t");
+					}
+					Debug.WriteLine(sb.ToString());
+					//什么时候输出？输出后再等延时？另一个线程输出？输出后延时会导致处理变慢吧。
+					Package.Clear();
+				}
+				try
+				{
+					await Task.Delay(Settings.Default.DispartMs, ct);
+				}
+				catch (TaskCanceledException)
+				{
+					break;
+				}
+
+			}
+		}
 		public static IdleTriggeredBatcher<NoteEvent> batcher =new IdleTriggeredBatcher<NoteEvent>();
 		/// <summary>
 		/// 接收到键盘事件
@@ -84,20 +204,23 @@ namespace Daigassou.Input_Midi
         {
           
             eventHandler?.Invoke(sender, e);
-
             switch (e.Event)
             {
                 case NoteOnEvent @event:
-					Debug.WriteLine($"按下\t{@event.NoteNumber}\t{@event.Velocity}");
+					//Debug.WriteLine($"按下\t{@event.NoteNumber}\t{@event.Velocity}");
 					if (@event.Velocity < Settings.Default.IgnoreVol) break;//响度低的忽略
-					batcher.OnEvent(@event);
+					Queue.Enqueue(new NEvent(@event));
+					//batcher.OnEvent(@event);
 					//noteQueue.Enqueue(@event);
                     break;
                 case NoteOffEvent @event:
-					Debug.WriteLine($"抬起\t{@event.NoteNumber}");//有时候会漏信息，估计和midi数据传输的线有关？
-					batcher.OnEvent(@event);//不敢加入队列就是怕同一个音再被演奏一次的时候，出现一个键被按下，又要按一遍的情况。要不……每次按下之前先松开一遍？
+					//Debug.WriteLine($"抬起\t{@event.NoteNumber}");//有时候会漏信息，估计和midi数据传输的线有关？
+					//batcher.OnEvent(@event);//不敢加入队列就是怕同一个音再被演奏一次的时候，出现一个键被按下，又要按一遍的情况。要不……每次按下之前先松开一遍？
+					Queue.Enqueue(new NEvent(@event));
 					//KeyOff[@event.NoteNumber - 24] = true;
 					//noteQueue.Enqueue(@event);
+					break;
+				default:
 					break;
             }
         }

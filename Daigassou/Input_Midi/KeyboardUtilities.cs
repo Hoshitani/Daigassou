@@ -14,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Collections.Concurrent;
 using System.Text;
+using System.IO;
 
 namespace Daigassou.Input_Midi
 {
@@ -153,12 +154,15 @@ namespace Daigassou.Input_Midi
 
 			*/
 			List<NEvent> Package = new List<NEvent>();
+			FileStream fs=new FileStream("G:/log.txt", FileMode.Append);
 			while (!ct.IsCancellationRequested)
 			{
-				if (!Queue.TryDequeue(out NEvent a))
+				if (Queue.TryDequeue(out NEvent a))
 				{
 					long TimeSum = 0;
 					Package.Add(a);
+					//Queue.TryDequeue(out _);
+					DateTime now = DateTime.Now;
 					while(!ct.IsCancellationRequested)
 					{
 						if (Queue.TryPeek(out NEvent next))
@@ -180,6 +184,8 @@ namespace Daigassou.Input_Midi
 						sb.Append(n.ToString()+"\t");
 					}
 					Debug.WriteLine(sb.ToString());
+					var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss}\t{sb}\r\n");
+					await fs.WriteAsync(s, 0, s.Length);
 					//什么时候输出？输出后再等延时？另一个线程输出？输出后延时会导致处理变慢吧。
 					Package.Clear();
 				}
@@ -193,6 +199,7 @@ namespace Daigassou.Input_Midi
 				}
 
 			}
+			fs.Close();
 		}
 		public static IdleTriggeredBatcher<NoteEvent> batcher =new IdleTriggeredBatcher<NoteEvent>();
 		/// <summary>

@@ -46,8 +46,6 @@
 			this.btnKeybinding = new Sunny.UI.UISymbolButton();
 			this.uiSymbolLabel2 = new Sunny.UI.UISymbolLabel();
 			this.uiPanel1 = new Sunny.UI.UIPanel();
-			this.IgnoreOnOff = new Sunny.UI.UISwitch();
-			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -357,8 +355,6 @@
 			// 
 			// uiPanel1
 			// 
-			this.uiPanel1.Controls.Add(this.IgnoreOnOff);
-			this.uiPanel1.Controls.Add(this.label4);
 			this.uiPanel1.Controls.Add(this.label3);
 			this.uiPanel1.Controls.Add(this.label2);
 			this.uiPanel1.Controls.Add(this.label1);
@@ -386,28 +382,6 @@
 			this.uiPanel1.TabIndex = 42;
 			this.uiPanel1.Text = null;
 			this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			// 
-			// IgnoreOnOff
-			// 
-			this.IgnoreOnOff.ActiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.IgnoreOnOff.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-			this.IgnoreOnOff.Location = new System.Drawing.Point(404, 103);
-			this.IgnoreOnOff.MinimumSize = new System.Drawing.Size(1, 1);
-			this.IgnoreOnOff.Name = "IgnoreOnOff";
-			this.IgnoreOnOff.Size = new System.Drawing.Size(70, 25);
-			this.IgnoreOnOff.Style = Sunny.UI.UIStyle.Colorful;
-			this.IgnoreOnOff.TabIndex = 43;
-			this.IgnoreOnOff.Text = "uiSwitch1";
-			this.IgnoreOnOff.ValueChanged += new Sunny.UI.UISwitch.OnValueChanged(this.IgnoreOnOff_ValueChanged);
-			// 
-			// label4
-			// 
-			this.label4.AutoSize = true;
-			this.label4.Location = new System.Drawing.Point(276, 105);
-			this.label4.Name = "label4";
-			this.label4.Size = new System.Drawing.Size(122, 21);
-			this.label4.TabIndex = 42;
-			this.label4.Text = "混淆按下与抬起";
 			// 
 			// label3
 			// 
@@ -590,7 +564,7 @@
 			this.updIntervalMinMs.Location = new System.Drawing.Point(160, 65);
 			this.updIntervalMinMs.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.updIntervalMinMs.Maximum = 255;
-			this.updIntervalMinMs.Minimum = 10;
+			this.updIntervalMinMs.Minimum = 2;
 			this.updIntervalMinMs.MinimumSize = new System.Drawing.Size(100, 0);
 			this.updIntervalMinMs.Name = "updIntervalMinMs";
 			this.updIntervalMinMs.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
@@ -601,7 +575,8 @@
 			this.updIntervalMinMs.TabIndex = 31;
 			this.updIntervalMinMs.Text = "uiIntegerUpDown2";
 			this.updIntervalMinMs.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.updIntervalMinMs.Value = 30;
+			this.uiToolTip1.SetToolTip(this.updIntervalMinMs, "用于现实与midi的同时按键。可能最低值是2，也可能是60多");
+			this.updIntervalMinMs.Value = 2;
 			this.updIntervalMinMs.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.updIntervalMinMs_ValueChanged);
 			// 
 			// uiSymbolLabel4
@@ -651,6 +626,7 @@
 			this.updChordMinMs.TabIndex = 31;
 			this.updChordMinMs.Text = "uiIntegerUpDown2";
 			this.updChordMinMs.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+			this.uiToolTip1.SetToolTip(this.updChordMinMs, "用于自动演奏");
 			this.updChordMinMs.Value = 30;
 			this.updChordMinMs.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.updChordMinMs_ValueChanged);
 			// 
@@ -736,7 +712,5 @@
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label1;
 		private Sunny.UI.UIIntegerUpDown IgnoreVolNud;
-		private Sunny.UI.UISwitch IgnoreOnOff;
-		private System.Windows.Forms.Label label4;
 	}
 }

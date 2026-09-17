@@ -38,7 +38,6 @@ namespace Daigassou.Forms
             updIntervalMinMs.Value = (int) Settings.Default.MinEventMs;
             DispartNud.Value = (int) Settings.Default.DispartMs;
             IgnoreVolNud.Value = (int) Settings.Default.IgnoreVol;
-            IgnoreOnOff.Active = Settings.Default.IgnoreOnOff;
 			swEnableAnalyze.Active = Settings.Default.isUsingAnalysis;
             swEnableGuitarKey.Active = Settings.Default.isUsingGuitarKey;
             swUsingPcap.Active = Settings.Default.isUsingWinPCap;
@@ -183,12 +182,6 @@ namespace Daigassou.Forms
 		private void IgnoreVolNud_ValueChanged(object sender, int value)
 		{
 			Settings.Default.IgnoreVol = value;
-			Settings.Default.Save();
-		}
-
-		private void IgnoreOnOff_ValueChanged(object sender, bool value)
-		{
-			Settings.Default.IgnoreOnOff = value;
 			Settings.Default.Save();
 		}
 	}

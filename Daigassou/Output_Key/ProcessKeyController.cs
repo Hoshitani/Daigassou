@@ -220,6 +220,10 @@ namespace DaigassouDX.Controller
 				if (pitch < 108 || pitch > 113) return 0;
 			return pitch;
 		}
+		/// <summary>
+		/// 接受输入48~84，超范围则进行一次映射。
+		/// </summary>
+		/// <param name="pitch"></param>
         public void PressKeyBoardByPitch(int pitch)
         {
 			if (pitch < 48 || pitch > 84)
@@ -230,6 +234,10 @@ namespace DaigassouDX.Controller
             KeyDownBoardByKey((Keys) _keymap[pitch]);
 			//return pitch;
         }
+		/// <summary>
+		/// 接受输入48~84，超范围则进行一次映射。
+		/// </summary>
+		/// <param name="pitch"></param>
 		public void ReleaseKeyBoardByPitch(int pitch)
         {
 			//if ((pitch >= 48 && pitch <= 84) || (pitch >= 108 && pitch <= 113 && Settings.Default.isUsingGuitarKey))

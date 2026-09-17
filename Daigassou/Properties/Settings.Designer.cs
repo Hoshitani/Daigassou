@@ -247,17 +247,5 @@ namespace Daigassou.Properties {
                 this["IgnoreVol"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool IgnoreOnOff {
-            get {
-                return ((bool)(this["IgnoreOnOff"]));
-            }
-            set {
-                this["IgnoreOnOff"] = value;
-            }
-        }
     }
 }

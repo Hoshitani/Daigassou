@@ -15,26 +15,21 @@ using System.Linq;
 using System.Collections.Concurrent;
 using System.Text;
 using System.IO;
-
+using System.Threading.Channels;
 namespace Daigassou.Input_Midi
 {
     public static class KeyboardUtilities
     {
         private static InputDevice wetMidiKeyboard;
-        private static readonly object NoteOnlock = new object();
-        private static readonly object NoteOfflock = new object();
-        private static readonly object noteLock = new object();
-        //private static readonly Queue<NoteEvent> noteQueue = new Queue<NoteEvent>();
         private static CancellationTokenSource cts = new CancellationTokenSource();
         public static int offset;
         public static event EventHandler<MidiEventReceivedEventArgs> eventHandler;
-		// public static KeyController kc;
 		/// <summary>
-		/// 哪些键被按下了。要存88键，对于1351的长按，松开第一个1的时候不能取消第二个1
+		/// 被按下的物理键。要存88键，对于1351的长按，松开第一个1的时候不能取消第二个1
 		/// </summary>
 		static bool[] Pressing = new bool[88];
 		/// <summary>
-		/// 37键 每个实际按下的键都有一个映射。需要记录每个键是被Pressing的哪个触发的。
+		/// 37键 每个实际按下的键都有一个映射。需要记录每个键是被Pressing的哪个触发的，数值0~87。
 		/// </summary>
 		static int[] Map = new int[37];
         public static DevicesConnector virtualConnector(int[] indexs)
@@ -62,12 +57,6 @@ namespace Daigassou.Input_Midi
                     wetMidiKeyboard.SilentNoteOnPolicy = SilentNoteOnPolicy.NoteOff;
                     wetMidiKeyboard.StartEventsListening();
                     cts = new CancellationTokenSource();
-
-                    Task.Run(() =>
-                    {
-                        
-                        NoteProcess(cts.Token);
-                    }, cts.Token);
 					Task.Run(async () =>
 					{
 						await QueueDeal(cts.Token);
@@ -84,17 +73,68 @@ namespace Daigassou.Input_Midi
 		//其实也没必要打包，检查一个键和下一个键的时间间距，判断要不要一块儿处理就好了。用Queue存起来还是比较好的
 		class NEvent
 		{
+			///// <summary>
+			///// 距离上一个事件的时长
+			///// </summary>
+			//public long gap;
 			/// <summary>
-			/// 距离上一个事件的时长
+			/// 收到事件的时间
 			/// </summary>
-			public long gap;
-			public int number;//48是C3 C1是24
+			public DateTime dt;
+			/// <summary>
+			/// 正常范围是-3~84。加过offset减过24 C1是0，C3是24
+			/// </summary>
+			public int number;
+			/// <summary>
+			/// 映射到37键的值，范围0~36。负值需要跳过
+			/// </summary>
+			public int MapNumber
+			{
+				get
+				{
+					var pitch = number;
+					if (pitch < 0) return -1;
+					switch (Settings.Default.Use88)
+					{
+						default:
+						case 0: break;
+						case 1:
+							{
+								if (pitch < 24) pitch = pitch % 12;//将C1~B2映射到C3~B3。
+								else if (pitch > 60) pitch = 48 + pitch % 12;//C6~C8映射到C5~C6。
+								/*
+								1	2	3	4	5	6	7	8
+								3	3	3	4	5	6	6	6 ←这样映射，可以避免音高差太多的问题
+								*/
+								break;
+							}
+						case 2:
+							{
+								if (pitch < 24) ;// pitch += 24;//将C1~B2映射到C3~B4好了 C3就是0，所以不用处理
+								else if (pitch <= 84) pitch -= 48;//84是C6……C#6~C8映射到C#4~C6，超过C8的不知道是什么键
+								else return -1;
+								/*
+								1	2	3	4	5	6	7	8
+								3	4	3	4	5	6	5	6 ←这样映射，可以避免同时弹2、3跨八度跟没跨一样的问题。
+								*/
+								break;
+							}
+							/*
+			接入88键的键盘，为37键之外的按键重新映射到37键上。然后要注意当重新映射后的键也在被按下时，应当只响应一次。
+				映射如果只是把低音区域映射到C3~C4，只是把高音区域映射到C5~C6可能不太好。37键的范围是C3~C6。将C1~B2映射到C3~B4好了，C1以下的A0、bB0、B0丢掉，谁会弹这些阿。最高音则是C8，C#6~C8映射到C#4~C6好了？
+								*/
+					}
+					if (Settings.Default.isUsingGuitarKey)
+						if (pitch < 108-24 || pitch > 113-24) return -1;
+					return pitch;
+				}
+			}
 			readonly static string[] symbols = ["C", "C#", "D", "bE", "E", "F", "F#", "G", "G#", "A", "bB", "B"];
 			public string Symbol
 			{
 				get
 				{
-					var n = number - 24;
+					var n = number;
 					var h = 0;
 					if (n > 0) h = (int)Math.Ceiling(n / 12f);
 					else n = n + symbols.Length;
@@ -107,18 +147,18 @@ namespace Daigassou.Input_Midi
 			public byte Channel;
 			public NEvent(NoteEvent e)
 			{
-				gap = e.DeltaTime;
+				dt = DateTime.Now;
 				eventtype = e.EventType;
-				number = e.NoteNumber;
+				number = e.NoteNumber+offset-24;
 				Velocity = e.Velocity;
-				Channel = e.Channel;//一般都是保持为1的……但如果想利用上88键做多乐器的话就不一样了，这需要认真的给88键绑按键，不是映射能解决的问题。
+				Channel = e.Channel;//一般都是保持为0的……但如果想利用上88键做多乐器的话就不一样了，这需要认真的给88键绑按键，不是映射能解决的问题。
 			}
 			public override string ToString()
 			{
 				return $"{Symbol} {Velocity}";
 			}
 		}
-		static ConcurrentQueue<NEvent> Queue = new ConcurrentQueue<NEvent>();
+		static Channel<NEvent> Queue = Channel.CreateUnbounded<NEvent>();
 		static ConcurrentQueue<NEvent> Dealed = new ConcurrentQueue<NEvent>();
 		/*
 			using (var inputDevice = InputDevice.GetByName("Input MIDI device"))
@@ -135,7 +175,7 @@ namespace Daigassou.Input_Midi
 				recording.Dispose();
 				recordedFile.Write("Recorded data.mid");
 			}
-			//可以存成文件
+			//可以把Midi信号存成文件
 		*/
 		static async Task QueueDeal(CancellationToken ct)
 		{
@@ -154,50 +194,40 @@ namespace Daigassou.Input_Midi
 
 			*/
 			List<NEvent> Package = new List<NEvent>();
-			FileStream fs=new FileStream("G:/log.txt", FileMode.Append);
-			while (!ct.IsCancellationRequested)
+			FileStream fs=new FileStream("D:/MidiLog.txt", FileMode.Append);
+			while (await Queue.Reader.WaitToReadAsync(ct))
 			{
-				if (Queue.TryDequeue(out NEvent a))
+				if (!Queue.Reader.TryRead(out NEvent a)) 
+					continue;//到底什么情况会上边Read到了下边没Read到啊
+				Package.Add(a);
+				DateTime now = DateTime.Now;
+				while (!ct.IsCancellationRequested)
 				{
-					long TimeSum = 0;
-					Package.Add(a);
-					//Queue.TryDequeue(out _);
-					DateTime now = DateTime.Now;
-					while(!ct.IsCancellationRequested)
+					if (Queue.Reader.TryPeek(out NEvent next))
 					{
-						if (Queue.TryPeek(out NEvent next))
+						if ((next.dt - a.dt).TotalMilliseconds < Settings.Default.DispartMs)//连续的小于都拼起来？
 						{
-							if (next.gap < Settings.Default.DispartMs)//小于的都拼起来
-							{
-								TimeSum += next.gap;
-								Package.Add(next);
-								Queue.TryDequeue(out _);
-							}
-							else break;
+							Package.Add(next);
+							Queue.Reader.TryRead(out _);
 						}
-						else break;//没有下一个东西了
+						else break;
 					}
-					StringBuilder sb = new StringBuilder();
-					foreach (var n in Package)
-					{
-						Dealed.Enqueue(n);
-						sb.Append(n.ToString()+"\t");
-					}
-					Debug.WriteLine(sb.ToString());
-					var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss}\t{sb}\r\n");
-					await fs.WriteAsync(s, 0, s.Length);
-					//什么时候输出？输出后再等延时？另一个线程输出？输出后延时会导致处理变慢吧。
-					Package.Clear();
+					else break;//没有下一个东西了
 				}
-				try
+				List<Task> lt = new List<Task>();
+				lt.Add( NoteProcess(Package, ct));
+				StringBuilder sb = new StringBuilder();
+				foreach (var n in Package)
 				{
-					await Task.Delay(Settings.Default.DispartMs, ct);
+					Dealed.Enqueue(n);
+					sb.Append(n.ToString() + "\t");
 				}
-				catch (TaskCanceledException)
-				{
-					break;
-				}
-
+				Debug.WriteLine(sb.ToString());
+				var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss}\t{sb}\r\n");
+				lt.Add(fs.WriteAsync(s, 0, s.Length));
+				//什么时候输出？输出后再等延时？另一个线程输出？输出后延时会导致处理变慢吧。
+				Package.Clear();
+				await Task.WhenAll(lt);//将写入文件和操作按键同时处理
 			}
 			fs.Close();
 		}
@@ -209,26 +239,25 @@ namespace Daigassou.Input_Midi
 		/// <param name="e"></param>
 		private static void MidiKeyboard_EventReceived(object sender, MidiEventReceivedEventArgs e)
         {
-          
             eventHandler?.Invoke(sender, e);
             switch (e.Event)
             {
                 case NoteOnEvent @event:
 					//Debug.WriteLine($"按下\t{@event.NoteNumber}\t{@event.Velocity}");
-					if (@event.Velocity < Settings.Default.IgnoreVol) break;//响度低的忽略
-					Queue.Enqueue(new NEvent(@event));
+					Queue.Writer.WriteAsync(new NEvent(@event));
 					//batcher.OnEvent(@event);
 					//noteQueue.Enqueue(@event);
                     break;
                 case NoteOffEvent @event:
 					//Debug.WriteLine($"抬起\t{@event.NoteNumber}");//有时候会漏信息，估计和midi数据传输的线有关？
 					//batcher.OnEvent(@event);//不敢加入队列就是怕同一个音再被演奏一次的时候，出现一个键被按下，又要按一遍的情况。要不……每次按下之前先松开一遍？
-					Queue.Enqueue(new NEvent(@event));
+					Queue.Writer.WriteAsync(new NEvent(@event));
+					//Queue.Enqueue(new NEvent(@event));
 					//KeyOff[@event.NoteNumber - 24] = true;
 					//noteQueue.Enqueue(@event);
 					break;
 				default:
-					break;
+					break;//还有什么事件类型呢？
             }
         }
 
@@ -275,110 +304,72 @@ namespace Daigassou.Input_Midi
             return ret;
         }
 		/// <summary>
-		/// 异步方法执行了一个同步函数啊这是。
+		/// 用于输出按键，判断力度，去重（映射到同一个键的）
 		/// </summary>
-		/// <param name="token"></param>
-        public static void NoteProcess(CancellationToken token)
+        static async Task NoteProcess(List<NEvent> Package,CancellationToken token)
         {
             var minimumInterval = (int) Settings.Default.MinEventMs;
-            while (!token.IsCancellationRequested)
-            {
-                //NoteEvent nextKey;
-                lock (noteLock)
-                {
-					//if (noteQueue.Count <= 0)
-					//{
-					//    Thread.Sleep(1); continue;
-					//}//等待被挪到batcher.Dequeue()里了。
-					Queue<NoteEvent> queue = new Queue<NoteEvent>();
-					var batch = batcher.Dequeue().OrderBy(x=>x.NoteNumber).ToList();
-					var Release = batch.FindAll(x => x.Velocity == 0);
-					batch = batch.FindAll(x => x.Velocity > 0).ToList();
-					var Left=batch.FindAll(x => x.NoteNumber>batch[0].NoteNumber&& x.NoteNumber <= batch[0].NoteNumber + 12);
-					var Right = batch.FindAll(x => x.NoteNumber > batch[0].NoteNumber + 12);
-					if(batch.Count>0)queue.Enqueue(batch.First());//先弹最低音
-					foreach (var r in Right) queue.Enqueue(r);//再弹右手
-					foreach (var l in Left) queue.Enqueue(l);//再弹其余的左手
-					//如果同时演奏高音区域和低音区域的话，高音区域很可能是主旋律。应该优先弹高音区域再弹低音区域？
-					//问题出在这个“很可能”。如何判定？
-					//其实可以猜测手的位置，最高音-8度和最低音+8度就是一只手（因人而异，要加个选项吗😓）能跨越的最大范围，从而区分出来左右手是哪些键。优先弹最低音，高音区，其余的低音？
-					foreach (var l in Release) queue.Enqueue(l);//再处理放开
+			while (!token.IsCancellationRequested)
+			{
+				var batch = Package.OrderBy(x => x.number).ToList();
+				var Release = batch.FindAll(x => x.Velocity == 0);
+				batch = batch.FindAll(x => x.Velocity > Settings.Default.IgnoreVol).ToList();
+				var Left = batch.FindAll(x => x.number > batch[0].number && x.number <= batch[0].number + 12);//从最低音开始的一个八度
+				var Right = batch.FindAll(x => x.number > batch[0].number + 12);//超过最低音一个八度的音
+				List<NEvent> queue = new List<NEvent>();
+				if (batch.Count > 0) queue.Add(batch.First());//先弹最低音
+				queue.AddRange(Right);//再弹右手
+				queue.AddRange(Left);//再弹其余的左手
+				queue.AddRange(Release);//再处理放开
 
-					bool[] array = new bool[37];//还要注意一个问题：如果queue里有两个键映射到了37键的同一个键，那么应当去掉一个。
-					//Debug.WriteLine("\r\nBatch————");
-					foreach (var nextKey in queue)
+				bool[] array = new bool[37];//还要注意一个问题：如果queue里有两个键映射到了37键的同一个键，那么应当去掉其中一个。用这个数组记录本次要按下那些键进行去重
+
+				foreach (var nextKey in queue)
+				{
+					if (nextKey.MapNumber<0) continue;
+					if (nextKey.Velocity > 0)
 					{
-						int number = nextKey.NoteNumber;
-						Debug.Write("\r\n"+number);
-						var npitch = ProcessKeyController.PitchExchange(number + offset);//实际要按的键是npitch,npitch-48在0~37
-						if (npitch == 0) continue;
-						switch (nextKey)
+						if (nextKey.MapNumber < 37)//去掉吉他的那些
 						{
-							case NoteOnEvent keyon:
-								if (npitch - 48 < 37)//npitch是102……
-								{
-									if (array[npitch - 48])
-									{
-										Debug.Write("\t同音\r\n");
-										continue;//在本次打包的队列里已经存在了，不应再按下一次。
-									}
-									array[npitch - 48] = true;
-								}
-								NoteOn(number,npitch);
-								Thread.Sleep(minimumInterval);
-								//有时候会收到莫名其妙的信号，明明没有按那个键。
-								break;
-							case NoteOffEvent keyoff:
-								NoteOff(number + offset, npitch);
-								//Thread.Sleep(minimumInterval);//等按键抬起会影响之后的输入？不等了吧。
-								break;
+							if (array[nextKey.MapNumber]) continue;//在本次打包的队列里已经存在了，不应再按下一次。
+							array[nextKey.MapNumber] = true;
 						}
-						Debug.WriteLine("");
-					}
-					//MidiKeyboard_EventReceived需要以一个间隔（通过设置调整）来打包数据，将打包期间的按键拆解成琶音逐个输出。处理完一个包后就立刻处理下一个包，这也许可以解决琶音被拆散到两个包的情况。
-					//会导致响应不及时吗？应该以第一个输入作为打包起点，一段时间没有输入就停止打包，回到等待第一个输入的状态。
-				}
-            }
-        }
 
-        public static void NoteOn(int OriginNote,int Note_37)
-        {
-			lock (NoteOnlock)
-			{
-				if (Note_37 <48||Note_37>84) return;
-				if (Map[Note_37 - 48] > 0)//对应的37键被按下了，先抬起它
-				{
-					Debug.Write("\t已被按下");
-					NoteOff(Map[Note_37 - 48],Note_37);//拿着当时按下的键 值去抬就好了。
-					Thread.Sleep((int)Settings.Default.MinEventMs);
+						if (Map[nextKey.MapNumber] > 0)//对应的37键在这一批之前就被按下了，先抬起它
+						{
+							Debug.WriteLine($"{nextKey.MapNumber}已被{Map[nextKey.MapNumber]}按下，先抬起");
+							NoteOff(nextKey.MapNumber);//要抬这个键，自己用Map找对应哪个物理键
+							await Task.Delay(minimumInterval);
+						}
+						ProcessKeyController.GetInstance().PressKeyBoardByPitch(nextKey.MapNumber+48);
+						var t = nextKey.number;
+						if (t>=0&&t < Pressing.Length) Pressing[t+3] = true;//因为是-3开头的。
+						Map[nextKey.MapNumber] = nextKey.number+3;
+						await Task.Delay(minimumInterval);
+					}
+					else
+					{
+						NoteOff(nextKey.MapNumber);
+					}
 				}
-				//if (Pressing[pitch - 24]) NoteOff(pitch - 24);//如果这个键被按下，就先抬起再按。 1351
-				ProcessKeyController.GetInstance().PressKeyBoardByPitch(Note_37);
-				if(OriginNote+offset-24<Pressing.Length)Pressing[OriginNote+offset - 24] = true;
-				Map[Note_37 - 48] = OriginNote;
 			}
         }
 
-        public static void NoteOff(int OriginNote, int Note_37 = 0)
-        {
-			lock (NoteOfflock)
+		public static void NoteOff(int Note_37 = 0)
+		{
+			int OriginNote = Map[Note_37];
+			if (OriginNote < Pressing.Length&&OriginNote>=0)
 			{
-				if (OriginNote + offset - 24 < Pressing.Length)
+				if (!Pressing[OriginNote])
 				{
-					if (!Pressing[OriginNote - 24])
-					{
-						Debug.Write("\t已被松开");//可能是按键力度太低被忽略
-						return;//如果已经没在按了就不处理，免得程序感到疑惑，为什么一个按键抬起了两次。
-					}
-					if (OriginNote + offset - 24 < Pressing.Length)
-					{
-						Debug.Write("\t松开");
-						Pressing[OriginNote - 24] = false;
-					}
+					Debug.WriteLine($"{OriginNote}已被松开");//可能是按键力度太低被忽略
+					return;//如果已经没在按了就不处理，免得程序感到疑惑，为什么一个按键抬起了两次。
 				}
-				ProcessKeyController.GetInstance().ReleaseKeyBoardByPitch(Note_37);
-				if (Note_37 >= 48) Map[Note_37 - 48] = 0;
+				Debug.WriteLine($"{OriginNote}松开"); 
+				Pressing[OriginNote] = false;
+				Map[Note_37 - 48] = 0;
 			}
+			ProcessKeyController.GetInstance().ReleaseKeyBoardByPitch(Note_37+48);
 		}
     }
 }

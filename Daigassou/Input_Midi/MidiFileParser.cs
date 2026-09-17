@@ -152,7 +152,7 @@ namespace Daigassou.Controller
                             var lenoffset =
                                 LengthConverter.ConvertFrom(
                                     new MetricTimeSpan(Properties.Settings.Default.MinChordMs * 1000),
-                                    chord.Time, Tmap);
+                                    chord.Time, Tmap);//和弦最小间隔，用于自动演奏
                             var startTime = chord.Time - lenoffset * (chord.Notes.Count() - 1) / 2 < 0
                                 ? 0
                                 : chord.Time - lenoffset * (chord.Notes.Count() - 1) / 2;

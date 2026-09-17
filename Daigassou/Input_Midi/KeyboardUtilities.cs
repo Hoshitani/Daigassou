@@ -101,7 +101,8 @@ namespace Daigassou.Input_Midi
 						case 1:
 							{
 								if (pitch < 24) pitch = pitch % 12;//将C1~B2映射到C3~B3。
-								else if (pitch > 60) pitch = 48 + pitch % 12;//C6~C8映射到C5~C6。
+								else if (pitch > 60) pitch = 24 + pitch % 12;//C6~C8映射到C5~C6。
+								else pitch -= 24;
 								/*
 								1	2	3	4	5	6	7	8
 								3	3	3	4	5	6	6	6 ←这样映射，可以避免音高差太多的问题
@@ -195,39 +196,48 @@ namespace Daigassou.Input_Midi
 			*/
 			List<NEvent> Package = new List<NEvent>();
 			FileStream fs=new FileStream("D:/MidiLog.txt", FileMode.Append);
-			while (await Queue.Reader.WaitToReadAsync(ct))
+			try
 			{
-				if (!Queue.Reader.TryRead(out NEvent a)) 
-					continue;//到底什么情况会上边Read到了下边没Read到啊
-				Package.Add(a);
-				DateTime now = DateTime.Now;
-				while (!ct.IsCancellationRequested)
+				while (await Queue.Reader.WaitToReadAsync(ct))
 				{
-					if (Queue.Reader.TryPeek(out NEvent next))
+					if (!Queue.Reader.TryRead(out NEvent a))
+						continue;//到底什么情况会上边Read到了下边没Read到啊
+					Package.Add(a);
+					DateTime now = DateTime.Now;
+					while (!ct.IsCancellationRequested)
 					{
-						if ((next.dt - a.dt).TotalMilliseconds < Settings.Default.DispartMs)//连续的小于都拼起来？
+						if (Queue.Reader.TryPeek(out NEvent next))
 						{
-							Package.Add(next);
-							Queue.Reader.TryRead(out _);
+							if ((next.dt - a.dt).TotalMilliseconds < Settings.Default.DispartMs)//连续的小于都拼起来？
+							{
+								Package.Add(next);
+								Queue.Reader.TryRead(out _);
+							}
+							else break;
 						}
-						else break;
+						else break;//没有下一个东西了
 					}
-					else break;//没有下一个东西了
+					List<Task> lt = new List<Task>();
+					lt.Add(NoteProcess(Package, ct));
+					StringBuilder sb = new StringBuilder();
+					foreach (var n in Package)
+					{
+						Dealed.Enqueue(n);
+						sb.Append(n.ToString() + "\t");
+					}
+					Debug.WriteLine(sb.ToString());
+					var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss}\t{sb}\r\n");
+					lt.Add(fs.WriteAsync(s, 0, s.Length));
+					//什么时候输出？输出后再等延时？另一个线程输出？输出后延时会导致处理变慢吧。
+					Package.Clear();
+					await Task.WhenAll(lt);//将写入文件和操作按键同时处理
 				}
-				List<Task> lt = new List<Task>();
-				lt.Add( NoteProcess(Package, ct));
-				StringBuilder sb = new StringBuilder();
-				foreach (var n in Package)
-				{
-					Dealed.Enqueue(n);
-					sb.Append(n.ToString() + "\t");
-				}
-				Debug.WriteLine(sb.ToString());
-				var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss}\t{sb}\r\n");
-				lt.Add(fs.WriteAsync(s, 0, s.Length));
-				//什么时候输出？输出后再等延时？另一个线程输出？输出后延时会导致处理变慢吧。
-				Package.Clear();
-				await Task.WhenAll(lt);//将写入文件和操作按键同时处理
+
+			}
+			catch (Exception)
+			{
+
+
 			}
 			fs.Close();
 		}
@@ -306,54 +316,52 @@ namespace Daigassou.Input_Midi
 		/// <summary>
 		/// 用于输出按键，判断力度，去重（映射到同一个键的）
 		/// </summary>
-        static async Task NoteProcess(List<NEvent> Package,CancellationToken token)
-        {
-            var minimumInterval = (int) Settings.Default.MinEventMs;
-			while (!token.IsCancellationRequested)
+		static async Task NoteProcess(List<NEvent> Package, CancellationToken token)
+		{
+			if (Package.Count == 0) return;
+			var minimumInterval = (int)Settings.Default.MinEventMs;
+			var batch = Package.OrderBy(x => x.number).ToList();
+			var Release = batch.FindAll(x => x.Velocity == 0);
+			batch = batch.FindAll(x => x.Velocity > Settings.Default.IgnoreVol).ToList();
+			var Left = batch.FindAll(x => x.number > batch[0].number && x.number <= batch[0].number + 12);//从最低音开始的一个八度
+			var Right = batch.FindAll(x => x.number > batch[0].number + 12);//超过最低音一个八度的音
+			List<NEvent> queue = new List<NEvent>();
+			if (batch.Count > 0) queue.Add(batch.First());//先弹最低音
+			queue.AddRange(Right);//再弹右手
+			queue.AddRange(Left);//再弹其余的左手
+			queue.AddRange(Release);//再处理放开
+
+			bool[] array = new bool[37];//还要注意一个问题：如果queue里有两个键映射到了37键的同一个键，那么应当去掉其中一个。用这个数组记录本次要按下那些键进行去重
+
+			foreach (var nextKey in queue)
 			{
-				var batch = Package.OrderBy(x => x.number).ToList();
-				var Release = batch.FindAll(x => x.Velocity == 0);
-				batch = batch.FindAll(x => x.Velocity > Settings.Default.IgnoreVol).ToList();
-				var Left = batch.FindAll(x => x.number > batch[0].number && x.number <= batch[0].number + 12);//从最低音开始的一个八度
-				var Right = batch.FindAll(x => x.number > batch[0].number + 12);//超过最低音一个八度的音
-				List<NEvent> queue = new List<NEvent>();
-				if (batch.Count > 0) queue.Add(batch.First());//先弹最低音
-				queue.AddRange(Right);//再弹右手
-				queue.AddRange(Left);//再弹其余的左手
-				queue.AddRange(Release);//再处理放开
-
-				bool[] array = new bool[37];//还要注意一个问题：如果queue里有两个键映射到了37键的同一个键，那么应当去掉其中一个。用这个数组记录本次要按下那些键进行去重
-
-				foreach (var nextKey in queue)
+				if (nextKey.MapNumber < 0) continue;
+				if (nextKey.Velocity > 0)
 				{
-					if (nextKey.MapNumber<0) continue;
-					if (nextKey.Velocity > 0)
+					if (nextKey.MapNumber < 37)//去掉吉他的那些
 					{
-						if (nextKey.MapNumber < 37)//去掉吉他的那些
-						{
-							if (array[nextKey.MapNumber]) continue;//在本次打包的队列里已经存在了，不应再按下一次。
-							array[nextKey.MapNumber] = true;
-						}
+						if (array[nextKey.MapNumber]) continue;//在本次打包的队列里已经存在了，不应再按下一次。
+						array[nextKey.MapNumber] = true;
+					}
 
-						if (Map[nextKey.MapNumber] > 0)//对应的37键在这一批之前就被按下了，先抬起它
-						{
-							Debug.WriteLine($"{nextKey.MapNumber}已被{Map[nextKey.MapNumber]}按下，先抬起");
-							NoteOff(nextKey.MapNumber);//要抬这个键，自己用Map找对应哪个物理键
-							await Task.Delay(minimumInterval);
-						}
-						ProcessKeyController.GetInstance().PressKeyBoardByPitch(nextKey.MapNumber+48);
-						var t = nextKey.number;
-						if (t>=0&&t < Pressing.Length) Pressing[t+3] = true;//因为是-3开头的。
-						Map[nextKey.MapNumber] = nextKey.number+3;
+					if (Map[nextKey.MapNumber] > 0)//对应的37键在这一批之前就被按下了，先抬起它
+					{
+						Debug.WriteLine($"{nextKey.MapNumber}已被{Map[nextKey.MapNumber]}按下，先抬起");
+						NoteOff(nextKey.MapNumber);//要抬这个键，自己用Map找对应哪个物理键
 						await Task.Delay(minimumInterval);
 					}
-					else
-					{
-						NoteOff(nextKey.MapNumber);
-					}
+					ProcessKeyController.GetInstance().PressKeyBoardByPitch(nextKey.MapNumber + 48);
+					var t = nextKey.number;
+					if (t >= 0 && t < Pressing.Length) Pressing[t + 3] = true;//因为是-3开头的。
+					Map[nextKey.MapNumber] = nextKey.number + 3;
+					await Task.Delay(minimumInterval);
+				}
+				else
+				{
+					NoteOff(nextKey.MapNumber);
 				}
 			}
-        }
+		}
 
 		public static void NoteOff(int Note_37 = 0)
 		{
@@ -367,7 +375,7 @@ namespace Daigassou.Input_Midi
 				}
 				Debug.WriteLine($"{OriginNote}松开"); 
 				Pressing[OriginNote] = false;
-				Map[Note_37 - 48] = 0;
+				Map[Note_37] = 0;
 			}
 			ProcessKeyController.GetInstance().ReleaseKeyBoardByPitch(Note_37+48);
 		}

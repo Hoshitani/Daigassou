@@ -226,7 +226,7 @@ namespace Daigassou.Input_Midi
 						sb.Append(n.ToString() + "\t");
 					}
 					Debug.WriteLine(sb.ToString());
-					var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss}\t{sb}\r\n");
+					var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss:fff}\t{sb}\r\n");
 					lt.Add(fs.WriteAsync(s, 0, s.Length));
 					//什么时候输出？输出后再等延时？另一个线程输出？输出后延时会导致处理变慢吧。
 					Package.Clear();

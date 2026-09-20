@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Daigassou.Input_Midi;
+using Daigassou.Properties;
 using Melanchall.DryWetMidi.Core;
 using Melanchall.DryWetMidi.Multimedia;
 using Sunny.UI;
@@ -25,9 +26,10 @@ namespace Daigassou.Forms
             base.Init();
             uiLine3.ForeColor = Color.FromArgb(255, 113, 128);
             uiLine2.ForeColor = Color.FromArgb(255, 113, 128);
-        }
+			Use88.SelectedIndex = DaigassouDX.Controller.ProcessKeyController.Use88;
+		}
 
-        public override void Final()
+		public override void Final()
         {
             base.Final();
         }
@@ -135,5 +137,11 @@ namespace Daigassou.Forms
         {
             Process.Start("https://www.bilibili.com/video/BV1kG4y1R7sM/");
         }
-    }
+
+		private void Use88_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			Settings.Default.Use88 = DaigassouDX.Controller.ProcessKeyController.Use88 = (byte)Use88.SelectedIndex;
+			Settings.Default.Save();
+		}
+	}
 }

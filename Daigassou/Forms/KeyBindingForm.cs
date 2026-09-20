@@ -94,7 +94,6 @@ namespace Daigassou.Forms
                         ProcessKeyController.GetKeyChar((Keys) keypair.Value).ToString();
 
             keyConfig = ProcessKeyController._keymap;
-			Use88.SelectedIndex = ProcessKeyController.Use88;
 		}
 
         private void btnConfirm_Click(object sender, EventArgs e)
@@ -118,10 +117,5 @@ namespace Daigassou.Forms
         private void KeyBindingForm_FormClosing(object sender, FormClosingEventArgs e)
         {
         }
-		private void Use88_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			Settings.Default.Use88 = ProcessKeyController.Use88 = (byte)Use88.SelectedIndex;
-			Settings.Default.Save();
-		}
 	}
 }

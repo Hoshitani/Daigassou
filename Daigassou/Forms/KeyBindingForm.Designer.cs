@@ -30,7 +30,6 @@
         {
 			this.uiPanel1 = new Sunny.UI.UIPanel();
 			this.label1 = new System.Windows.Forms.Label();
-			this.Use88 = new System.Windows.Forms.ComboBox();
 			this.uiTextBox42 = new Sunny.UI.UITextBox();
 			this.uiTextBox41 = new Sunny.UI.UITextBox();
 			this.uiTextBox40 = new Sunny.UI.UITextBox();
@@ -85,7 +84,6 @@
 			this.uiPanel1.BackgroundImage = global::Daigassou.Properties.Resources.keyBindingBackground;
 			this.uiPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.uiPanel1.Controls.Add(this.label1);
-			this.uiPanel1.Controls.Add(this.Use88);
 			this.uiPanel1.Controls.Add(this.uiTextBox42);
 			this.uiPanel1.Controls.Add(this.uiTextBox41);
 			this.uiPanel1.Controls.Add(this.uiTextBox40);
@@ -155,20 +153,6 @@
 			this.label1.Size = new System.Drawing.Size(210, 21);
 			this.label1.TabIndex = 47;
 			this.label1.Text = "↑建议从这里，从低到高设置";
-			// 
-			// Use88
-			// 
-			this.Use88.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.Use88.FormattingEnabled = true;
-			this.Use88.Items.AddRange(new object[] {
-            "不使用",
-            "将音域外映射到最近的八度",
-            "将音域外的两个八度增减16度"});
-			this.Use88.Location = new System.Drawing.Point(691, 149);
-			this.Use88.Name = "Use88";
-			this.Use88.Size = new System.Drawing.Size(248, 29);
-			this.Use88.TabIndex = 46;
-			this.Use88.SelectedIndexChanged += new System.EventHandler(this.Use88_SelectedIndexChanged);
 			// 
 			// uiTextBox42
 			// 
@@ -1539,6 +1523,5 @@
         private Sunny.UI.UITextBox uiTextBox39;
         private Sunny.UI.UITextBox uiTextBox38;
 		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.ComboBox Use88;
 	}
 }

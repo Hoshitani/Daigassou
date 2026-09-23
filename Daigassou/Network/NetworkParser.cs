@@ -69,7 +69,7 @@ namespace Daigassou.Controller
             {"ensembleStartPacket",187 },//开始准备小节 88大小，0x32=bpm 0x013E
             {"ensemblePacket", 341},//每个小节的数据 1064大小 0x024C
             {"ensembleConfirmPacket", 186},//合奏准备确认 56大小，0x32=bpm 0x00FA
-            {"InstruSendingPacket", 0x00E3}
+            {"InstruSendingPacket", 354}//按键信息 56大小，从第34个开始10个是乐器按键输入。 0x00E3
         };
 		/*
 		338 516 985 很多（保活包？）
@@ -151,9 +151,15 @@ namespace Daigassou.Controller
         private void MessageSent(TCPConnection connection, long epoch, byte[] message)
         {
             var res = Parse(message);
+			//Trace.WriteLine($"{res.header.MessageType}\t{res.data.Length}");
+			//if (res.header.MessageType == 354)
+			//{
+			//	StringBuilder sb = new StringBuilder();
+			//	foreach (var a in res.data) sb.Append($"{a} ");
+			//	Trace.WriteLine(sb.ToString());
+			//}
 
-
-            ushort opCode = res.header.MessageType;
+			ushort opCode = res.header.MessageType;
             if (opCode == opcodeDict["InstruSendingPacket"] && res.data[32]==0x1c) //当前乐器
             {
                 var instruCode = res.data[36];
@@ -167,13 +173,13 @@ namespace Daigassou.Controller
         private void MessageReceived(TCPConnection connection, long epoch, byte[] message)
         {
             var res = Parse(message);
-			Trace.WriteLine($"{res.header.MessageType}\t{res.data.Length}");
-			if (res.header.MessageType == 846)
-			{
-				StringBuilder sb = new StringBuilder();
-				foreach (var a in res.data) sb.Append($"{a} ");
-				Trace.WriteLine(sb.ToString());
-			}
+			//Trace.WriteLine($"{res.header.MessageType}\t{res.data.Length}");
+			//if (res.header.MessageType == 846)
+			//{
+			//	StringBuilder sb = new StringBuilder();
+			//	foreach (var a in res.data) sb.Append($"{a} ");
+			//	Trace.WriteLine(sb.ToString());
+			//}
 
             ushort opCode = res.header.MessageType;
            

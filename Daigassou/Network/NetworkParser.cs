@@ -66,7 +66,7 @@ namespace Daigassou.Controller
             {"countDownPacket", 0x0343},
             {"ensembleStopPacket", 0x03cd},
             {"partyStopPacket", 0x0158},
-            {"ensembleStartPacket", 0x013E},
+            {"ensembleStartPacket", 0x013E},//todo 找找新的特征码？我还真没在C#里抓过包
             {"ensemblePacket", 0x024C},
             {"ensembleConfirmPacket", 0x00FA},
             {"InstruSendingPacket", 0x00E3}

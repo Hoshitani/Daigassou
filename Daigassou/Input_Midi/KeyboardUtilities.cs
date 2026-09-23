@@ -319,10 +319,11 @@ namespace Daigassou.Input_Midi
 		static async Task NoteProcess(List<NEvent> Package, CancellationToken token)
 		{
 			if (Package.Count == 0) return;
-			var minimumInterval = (int)Settings.Default.MinEventMs;
+			var minimumInterval = 0;// (int)Settings.Default.MinEventMs;//不等了
 			var batch = Package.OrderBy(x => x.number).ToList();
 			var Release = batch.FindAll(x => x.Velocity == 0);
 			batch = batch.FindAll(x => x.Velocity > Settings.Default.IgnoreVol).ToList();
+
 			var Left = batch.FindAll(x => x.number > batch[0].number && x.number <= batch[0].number + 12);//从最低音开始的一个八度
 			var Right = batch.FindAll(x => x.number > batch[0].number + 12);//超过最低音一个八度的音
 			List<NEvent> queue = new List<NEvent>();
@@ -330,6 +331,7 @@ namespace Daigassou.Input_Midi
 			queue.AddRange(Right);//再弹右手
 			queue.AddRange(Left);//再弹其余的左手
 			queue.AddRange(Release);//再处理放开
+			//还有必要分解吗？感觉从左到右也挺好的，低音先行
 
 			bool[] array = new bool[37];//还要注意一个问题：如果queue里有两个键映射到了37键的同一个键，那么应当去掉其中一个。用这个数组记录本次要按下那些键进行去重
 

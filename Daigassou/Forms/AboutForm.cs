@@ -28,9 +28,9 @@ namespace Daigassou
 		private async void AboutForm_Load(object sender, EventArgs e)
         {
             lblVersion.Text = "Ver " + Assembly.GetExecutingAssembly().GetName().Version;
-			//cts = new CancellationTokenSource();
+			cts = new CancellationTokenSource();
 			//Do(cts.Token);
-		}		
+		}
 		//async Task Do(CancellationToken token)
 		//{
 		//	int i = 80;
@@ -65,9 +65,35 @@ namespace Daigassou
 		//	}
 
 		//}
+		async Task Do(CancellationToken token)
+		{
+			var ins = DaigassouDX.Controller.ProcessKeyController.GetInstance();
+			int gap = 60;
+			while (!token.IsCancellationRequested && gap >= 0)
+			{
+				try
+				{
+					for (int i = 0; i < 20; i++)
+					{
+						ins.PressKeyBoardByPitch(48 + i);
+						await Task.Delay(gap, token);
+						ins.ReleaseKeyBoardByPitch(48 + i);
+					}
+					Debug.WriteLine($"在{gap}ms下");
+					await Task.Delay(1000, token);
+					gap--;
+				}
+				catch (Exception)
+				{
+					break;
+				}
+			}
+		}
 		private void AboutForm_FormClosed(object sender, FormClosedEventArgs e)
 		{
-			//cts.Cancel();
+			cts.Cancel();
 		}
+		//测试1秒钟的按键次数
 	}
 }
+//检查是不是真的50ms一个按键，如果是的话，就要在开始演奏前设定bpm了。如果同时按键数量*50超过一拍的时长，就要拉长随后输入的等待间隔。在连续数秒无输入的时候重置。

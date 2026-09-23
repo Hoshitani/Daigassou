@@ -390,7 +390,7 @@
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(106, 21);
 			this.label3.TabIndex = 42;
-			this.label3.Text = "音符最小间隔";
+			this.label3.Text = "音符输出间隔";
 			// 
 			// label2
 			// 

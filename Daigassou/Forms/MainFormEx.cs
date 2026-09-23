@@ -104,7 +104,8 @@ namespace Daigassou.Forms
                 var v = FileVersionInfo.GetVersionInfo(targetName).FileVersion;
                 if (v.ToString() != System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString())
                 {
-                    UIMessageDialog.ShowWarningDialog(this,"更新提示","因当前文件名被修改，更新后请打开Daigassou.exe！");
+					UIMessageBox.ShowWarning("因当前文件名被修改，更新后请打开Daigassou.exe！");
+					//UIMessageDialog.ShowWarningDialog(this,"更新提示","因当前文件名被修改，更新后请打开Daigassou.exe！");
                     
                 }
 

@@ -173,7 +173,6 @@
 			this.uiTextBox42.Radius = 7;
 			this.uiTextBox42.ReadOnly = true;
 			this.uiTextBox42.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox42.RectSize = 2;
 			this.uiTextBox42.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox42.ShowText = false;
 			this.uiTextBox42.Size = new System.Drawing.Size(67, 30);
@@ -202,7 +201,7 @@
 			this.uiTextBox41.Radius = 7;
 			this.uiTextBox41.ReadOnly = true;
 			this.uiTextBox41.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox41.RectSize = 2;
+			
 			this.uiTextBox41.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox41.ShowText = false;
 			this.uiTextBox41.Size = new System.Drawing.Size(67, 30);
@@ -231,7 +230,7 @@
 			this.uiTextBox40.Radius = 7;
 			this.uiTextBox40.ReadOnly = true;
 			this.uiTextBox40.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox40.RectSize = 2;
+			
 			this.uiTextBox40.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox40.ShowText = false;
 			this.uiTextBox40.Size = new System.Drawing.Size(67, 30);
@@ -260,7 +259,6 @@
 			this.uiTextBox39.Radius = 7;
 			this.uiTextBox39.ReadOnly = true;
 			this.uiTextBox39.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox39.RectSize = 2;
 			this.uiTextBox39.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox39.ShowText = false;
 			this.uiTextBox39.Size = new System.Drawing.Size(67, 30);
@@ -289,7 +287,6 @@
 			this.uiTextBox38.Radius = 7;
 			this.uiTextBox38.ReadOnly = true;
 			this.uiTextBox38.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox38.RectSize = 2;
 			this.uiTextBox38.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox38.ShowText = false;
 			this.uiTextBox38.Size = new System.Drawing.Size(67, 30);
@@ -392,7 +389,7 @@
 			this.uiTextBox29.Radius = 7;
 			this.uiTextBox29.ReadOnly = true;
 			this.uiTextBox29.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox29.RectSize = 2;
+			
 			this.uiTextBox29.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox29.ShowText = false;
 			this.uiTextBox29.Size = new System.Drawing.Size(67, 30);
@@ -421,7 +418,7 @@
 			this.uiTextBox37.Radius = 7;
 			this.uiTextBox37.ReadOnly = true;
 			this.uiTextBox37.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox37.RectSize = 2;
+			
 			this.uiTextBox37.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox37.ShowText = false;
 			this.uiTextBox37.Size = new System.Drawing.Size(67, 30);
@@ -450,7 +447,7 @@
 			this.uiTextBox36.Radius = 7;
 			this.uiTextBox36.ReadOnly = true;
 			this.uiTextBox36.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox36.RectSize = 2;
+			
 			this.uiTextBox36.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox36.ShowText = false;
 			this.uiTextBox36.Size = new System.Drawing.Size(67, 30);
@@ -479,7 +476,7 @@
 			this.uiTextBox35.Radius = 7;
 			this.uiTextBox35.ReadOnly = true;
 			this.uiTextBox35.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox35.RectSize = 2;
+			
 			this.uiTextBox35.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox35.ShowText = false;
 			this.uiTextBox35.Size = new System.Drawing.Size(67, 30);
@@ -508,7 +505,7 @@
 			this.uiTextBox34.Radius = 7;
 			this.uiTextBox34.ReadOnly = true;
 			this.uiTextBox34.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox34.RectSize = 2;
+			
 			this.uiTextBox34.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox34.ShowText = false;
 			this.uiTextBox34.Size = new System.Drawing.Size(67, 30);
@@ -537,7 +534,7 @@
 			this.uiTextBox33.Radius = 7;
 			this.uiTextBox33.ReadOnly = true;
 			this.uiTextBox33.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox33.RectSize = 2;
+			
 			this.uiTextBox33.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox33.ShowText = false;
 			this.uiTextBox33.Size = new System.Drawing.Size(67, 30);
@@ -566,7 +563,7 @@
 			this.uiTextBox32.Radius = 7;
 			this.uiTextBox32.ReadOnly = true;
 			this.uiTextBox32.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox32.RectSize = 2;
+			
 			this.uiTextBox32.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox32.ShowText = false;
 			this.uiTextBox32.Size = new System.Drawing.Size(67, 30);
@@ -595,7 +592,7 @@
 			this.uiTextBox31.Radius = 7;
 			this.uiTextBox31.ReadOnly = true;
 			this.uiTextBox31.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox31.RectSize = 2;
+			
 			this.uiTextBox31.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox31.ShowText = false;
 			this.uiTextBox31.Size = new System.Drawing.Size(67, 30);
@@ -624,7 +621,7 @@
 			this.uiTextBox30.Radius = 7;
 			this.uiTextBox30.ReadOnly = true;
 			this.uiTextBox30.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox30.RectSize = 2;
+			
 			this.uiTextBox30.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox30.ShowText = false;
 			this.uiTextBox30.Size = new System.Drawing.Size(67, 30);
@@ -653,7 +650,7 @@
 			this.uiTextBox28.Radius = 7;
 			this.uiTextBox28.ReadOnly = true;
 			this.uiTextBox28.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox28.RectSize = 2;
+			
 			this.uiTextBox28.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox28.ShowText = false;
 			this.uiTextBox28.Size = new System.Drawing.Size(67, 30);
@@ -682,7 +679,7 @@
 			this.uiTextBox27.Radius = 7;
 			this.uiTextBox27.ReadOnly = true;
 			this.uiTextBox27.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox27.RectSize = 2;
+			
 			this.uiTextBox27.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox27.ShowText = false;
 			this.uiTextBox27.Size = new System.Drawing.Size(67, 30);
@@ -711,7 +708,7 @@
 			this.uiTextBox26.Radius = 7;
 			this.uiTextBox26.ReadOnly = true;
 			this.uiTextBox26.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox26.RectSize = 2;
+			
 			this.uiTextBox26.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox26.ShowText = false;
 			this.uiTextBox26.Size = new System.Drawing.Size(67, 30);
@@ -740,7 +737,7 @@
 			this.uiTextBox25.Radius = 7;
 			this.uiTextBox25.ReadOnly = true;
 			this.uiTextBox25.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox25.RectSize = 2;
+			
 			this.uiTextBox25.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox25.ShowText = false;
 			this.uiTextBox25.Size = new System.Drawing.Size(67, 30);
@@ -769,7 +766,7 @@
 			this.uiTextBox24.Radius = 7;
 			this.uiTextBox24.ReadOnly = true;
 			this.uiTextBox24.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox24.RectSize = 2;
+			
 			this.uiTextBox24.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox24.ShowText = false;
 			this.uiTextBox24.Size = new System.Drawing.Size(67, 30);
@@ -798,7 +795,7 @@
 			this.uiTextBox23.Radius = 7;
 			this.uiTextBox23.ReadOnly = true;
 			this.uiTextBox23.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox23.RectSize = 2;
+			
 			this.uiTextBox23.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox23.ShowText = false;
 			this.uiTextBox23.Size = new System.Drawing.Size(67, 30);
@@ -827,7 +824,7 @@
 			this.uiTextBox22.Radius = 7;
 			this.uiTextBox22.ReadOnly = true;
 			this.uiTextBox22.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox22.RectSize = 2;
+			
 			this.uiTextBox22.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox22.ShowText = false;
 			this.uiTextBox22.Size = new System.Drawing.Size(67, 30);
@@ -856,7 +853,7 @@
 			this.uiTextBox21.Radius = 7;
 			this.uiTextBox21.ReadOnly = true;
 			this.uiTextBox21.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox21.RectSize = 2;
+			
 			this.uiTextBox21.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox21.ShowText = false;
 			this.uiTextBox21.Size = new System.Drawing.Size(67, 30);
@@ -885,7 +882,7 @@
 			this.uiTextBox20.Radius = 7;
 			this.uiTextBox20.ReadOnly = true;
 			this.uiTextBox20.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox20.RectSize = 2;
+			
 			this.uiTextBox20.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox20.ShowText = false;
 			this.uiTextBox20.Size = new System.Drawing.Size(67, 30);
@@ -914,7 +911,7 @@
 			this.uiTextBox19.Radius = 7;
 			this.uiTextBox19.ReadOnly = true;
 			this.uiTextBox19.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox19.RectSize = 2;
+			
 			this.uiTextBox19.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox19.ShowText = false;
 			this.uiTextBox19.Size = new System.Drawing.Size(67, 30);
@@ -943,7 +940,7 @@
 			this.uiTextBox18.Radius = 7;
 			this.uiTextBox18.ReadOnly = true;
 			this.uiTextBox18.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox18.RectSize = 2;
+			
 			this.uiTextBox18.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox18.ShowText = false;
 			this.uiTextBox18.Size = new System.Drawing.Size(67, 30);
@@ -972,7 +969,7 @@
 			this.uiTextBox17.Radius = 7;
 			this.uiTextBox17.ReadOnly = true;
 			this.uiTextBox17.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox17.RectSize = 2;
+			
 			this.uiTextBox17.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox17.ShowText = false;
 			this.uiTextBox17.Size = new System.Drawing.Size(67, 30);
@@ -1001,7 +998,7 @@
 			this.uiTextBox16.Radius = 7;
 			this.uiTextBox16.ReadOnly = true;
 			this.uiTextBox16.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox16.RectSize = 2;
+			
 			this.uiTextBox16.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox16.ShowText = false;
 			this.uiTextBox16.Size = new System.Drawing.Size(67, 30);
@@ -1030,7 +1027,7 @@
 			this.uiTextBox15.Radius = 7;
 			this.uiTextBox15.ReadOnly = true;
 			this.uiTextBox15.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox15.RectSize = 2;
+			
 			this.uiTextBox15.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox15.ShowText = false;
 			this.uiTextBox15.Size = new System.Drawing.Size(67, 30);
@@ -1059,7 +1056,7 @@
 			this.uiTextBox14.Radius = 7;
 			this.uiTextBox14.ReadOnly = true;
 			this.uiTextBox14.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox14.RectSize = 2;
+			
 			this.uiTextBox14.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox14.ShowText = false;
 			this.uiTextBox14.Size = new System.Drawing.Size(67, 30);
@@ -1088,7 +1085,7 @@
 			this.uiTextBox13.Radius = 7;
 			this.uiTextBox13.ReadOnly = true;
 			this.uiTextBox13.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox13.RectSize = 2;
+			
 			this.uiTextBox13.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox13.ShowText = false;
 			this.uiTextBox13.Size = new System.Drawing.Size(67, 30);
@@ -1117,7 +1114,7 @@
 			this.uiTextBox12.Radius = 7;
 			this.uiTextBox12.ReadOnly = true;
 			this.uiTextBox12.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox12.RectSize = 2;
+			
 			this.uiTextBox12.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox12.ShowText = false;
 			this.uiTextBox12.Size = new System.Drawing.Size(67, 30);
@@ -1146,7 +1143,7 @@
 			this.uiTextBox11.Radius = 7;
 			this.uiTextBox11.ReadOnly = true;
 			this.uiTextBox11.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox11.RectSize = 2;
+			
 			this.uiTextBox11.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox11.ShowText = false;
 			this.uiTextBox11.Size = new System.Drawing.Size(67, 30);
@@ -1175,7 +1172,7 @@
 			this.uiTextBox10.Radius = 7;
 			this.uiTextBox10.ReadOnly = true;
 			this.uiTextBox10.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox10.RectSize = 2;
+			
 			this.uiTextBox10.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox10.ShowText = false;
 			this.uiTextBox10.Size = new System.Drawing.Size(67, 30);
@@ -1204,7 +1201,7 @@
 			this.uiTextBox9.Radius = 7;
 			this.uiTextBox9.ReadOnly = true;
 			this.uiTextBox9.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox9.RectSize = 2;
+			
 			this.uiTextBox9.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox9.ShowText = false;
 			this.uiTextBox9.Size = new System.Drawing.Size(67, 30);
@@ -1233,7 +1230,7 @@
 			this.uiTextBox8.Radius = 7;
 			this.uiTextBox8.ReadOnly = true;
 			this.uiTextBox8.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox8.RectSize = 2;
+			
 			this.uiTextBox8.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox8.ShowText = false;
 			this.uiTextBox8.Size = new System.Drawing.Size(67, 30);
@@ -1262,7 +1259,7 @@
 			this.uiTextBox7.Radius = 7;
 			this.uiTextBox7.ReadOnly = true;
 			this.uiTextBox7.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox7.RectSize = 2;
+			
 			this.uiTextBox7.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox7.ShowText = false;
 			this.uiTextBox7.Size = new System.Drawing.Size(67, 30);
@@ -1291,7 +1288,7 @@
 			this.uiTextBox6.Radius = 7;
 			this.uiTextBox6.ReadOnly = true;
 			this.uiTextBox6.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox6.RectSize = 2;
+			
 			this.uiTextBox6.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox6.ShowText = false;
 			this.uiTextBox6.Size = new System.Drawing.Size(67, 30);
@@ -1320,7 +1317,7 @@
 			this.uiTextBox5.Radius = 7;
 			this.uiTextBox5.ReadOnly = true;
 			this.uiTextBox5.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox5.RectSize = 2;
+			
 			this.uiTextBox5.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox5.ShowText = false;
 			this.uiTextBox5.Size = new System.Drawing.Size(67, 30);
@@ -1349,7 +1346,7 @@
 			this.uiTextBox4.Radius = 7;
 			this.uiTextBox4.ReadOnly = true;
 			this.uiTextBox4.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox4.RectSize = 2;
+			
 			this.uiTextBox4.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox4.ShowText = false;
 			this.uiTextBox4.Size = new System.Drawing.Size(67, 30);
@@ -1378,7 +1375,7 @@
 			this.uiTextBox3.Radius = 7;
 			this.uiTextBox3.ReadOnly = true;
 			this.uiTextBox3.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox3.RectSize = 2;
+			
 			this.uiTextBox3.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox3.ShowText = false;
 			this.uiTextBox3.Size = new System.Drawing.Size(67, 30);
@@ -1407,7 +1404,7 @@
 			this.uiTextBox2.Radius = 7;
 			this.uiTextBox2.ReadOnly = true;
 			this.uiTextBox2.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox2.RectSize = 2;
+			
 			this.uiTextBox2.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox2.ShowText = false;
 			this.uiTextBox2.Size = new System.Drawing.Size(67, 30);
@@ -1436,7 +1433,6 @@
 			this.uiTextBox1.Radius = 7;
 			this.uiTextBox1.ReadOnly = true;
 			this.uiTextBox1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.uiTextBox1.RectSize = 2;
 			this.uiTextBox1.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiTextBox1.ShowText = false;
 			this.uiTextBox1.Size = new System.Drawing.Size(67, 30);

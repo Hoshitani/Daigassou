@@ -53,7 +53,7 @@ namespace Daigassou.Controller
 
     public class NetworkParser 
     {
-        //public static uint countDownPacket =  size=80 POS=0X26
+        //public static uint countDownPacket =  size=80 POS=0X26 size=96 第55位（[54])是时间长度
         //public static uint ensembleStopPacket = size=48;
         //public static uint partyStopPacket = size=48; 0x20 = MARKID
         //public static uint ensembleStartPacket = size=88 0x32=bpm
@@ -63,16 +63,29 @@ namespace Daigassou.Controller
 
         public static Dictionary<string, ushort> opcodeDict = new Dictionary<string, ushort>()
         {
-            {"countDownPacket", 0x0343},
-            {"ensembleStopPacket", 0x03cd},
+            {"countDownPacket", 846},//战斗倒计时开始，96大小，[54]是时间长度 0x0343
+            {"ensembleStopPacket",718 },//合奏模式结束 48大小 0x03cd
             {"partyStopPacket", 0x0158},
-            {"ensembleStartPacket", 0x013E},//todo 找找新的特征码？我还真没在C#里抓过包
-            {"ensemblePacket", 0x024C},
-            {"ensembleConfirmPacket", 0x00FA},
+            {"ensembleStartPacket",187 },//开始准备小节 88大小，0x32=bpm 0x013E
+            {"ensemblePacket", 341},//每个小节的数据 1064大小 0x024C
+            {"ensembleConfirmPacket", 186},//合奏准备确认 56大小，0x32=bpm 0x00FA
             {"InstruSendingPacket", 0x00E3}
         };
+		/*
+		338 516 985 很多（保活包？）
+		186 ensembleConfirmPacket 合奏准备确认 开始和结束
 
-        public bool ensembleProcessFlag = true;
+		187 ensembleStartPacket 开始准备小节
+		341 ensemblePacket 一直有341，是每个小节？
+
+		718 ensembleStopPacket 合奏模式结束
+		？ partyStopPacket
+
+		846开始战斗倒计时 似乎是countDownPacket 但是96size
+		441取消战斗倒计时 88 size
+		*/
+
+		public bool ensembleProcessFlag = true;
         public bool isUsingEnsembleAssist = false;
         private FFXIVNetworkMonitor monitor = new FFXIVNetworkMonitor();
         public Process process;
@@ -154,8 +167,14 @@ namespace Daigassou.Controller
         private void MessageReceived(TCPConnection connection, long epoch, byte[] message)
         {
             var res = Parse(message);
+			Trace.WriteLine($"{res.header.MessageType}\t{res.data.Length}");
+			if (res.header.MessageType == 846)
+			{
+				StringBuilder sb = new StringBuilder();
+				foreach (var a in res.data) sb.Append($"{a} ");
+				Trace.WriteLine(sb.ToString());
+			}
 
-            
             ushort opCode = res.header.MessageType;
            
             if (isUsingEnsembleAssist)

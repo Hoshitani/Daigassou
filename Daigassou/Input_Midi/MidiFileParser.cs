@@ -131,9 +131,9 @@ namespace Daigassou.Controller
         /// </summary>
         public void PreProcessChord()
         {
-            using (var chordManager = new ChordsManager(trunks.ElementAt(Index).Events))
-            {
-                foreach (var chord in chordManager.Chords)
+			using (var chordsManager = new TimedObjectsManager<Chord>(trunks.ElementAt(Index).Events))
+			{
+                foreach (var chord in chordsManager.Objects)
                     if (chord.Notes.Count() > 1)
                     {
                         var count = 0;

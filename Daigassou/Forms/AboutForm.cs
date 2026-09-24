@@ -21,7 +21,6 @@ namespace Daigassou
         
         public AboutForm()
         {
-            
             InitializeComponent();
         }
 		CancellationTokenSource cts;

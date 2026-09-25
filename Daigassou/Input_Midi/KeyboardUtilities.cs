@@ -200,16 +200,26 @@ namespace Daigassou.Input_Midi
 			{
 				while (await Queue.Reader.WaitToReadAsync(ct))
 				{
-					if (!Queue.Reader.TryRead(out NEvent a))
-						continue;//到底什么情况会上边Read到了下边没Read到啊
+					DateTime now = DateTime.Now.AddSeconds(-1);
+					if (Queue.Reader.TryPeek(out NEvent a))
+					{
+						if (a.dt < now)
+						{
+							Queue.Reader.TryRead(out _);
+						}
+						else
+						{
+							await Task.Delay(10);
+							continue;
+						}
+					}
 					Package.Add(a);
-					DateTime now = DateTime.Now;
-					CancellationTokenSource cts = new CancellationTokenSource();//一秒后失效 在一秒之内的输出都排队进去
+					//CancellationTokenSource cts = new CancellationTokenSource(1000);//一秒后失效 在一秒之内的输出都排队进去
 					while (!ct.IsCancellationRequested)
 					{
 						if (Queue.Reader.TryPeek(out NEvent next))
 						{
-							cts.CancelAfter(Settings.Default.DispartMs);
+							//cts.CancelAfter(Settings.Default.DispartMs/2);
 							if ((next.dt - a.dt).TotalMilliseconds < Settings.Default.DispartMs)//连续的小于都拼起来？
 							{
 								Package.Add(next);
@@ -223,7 +233,7 @@ namespace Daigassou.Input_Midi
 							//{
 							//	try
 							//	{
-							//		await Task.Delay(Settings.Default.DispartMs / 10,cts.Token);//等10ms看看……这会导致总等待时间不固定？建议改为打包间隔
+							//		await Task.Delay(10, cts.Token);//等10ms看看……这会导致总等待时间不固定？建议改为打包间隔
 
 							//	}
 							//	catch (TaskCanceledException)
@@ -231,7 +241,7 @@ namespace Daigassou.Input_Midi
 							//		break;
 							//	}
 							//}
-							//else 
+							//else
 								break;//没有下一个东西了
 						}
 					}
@@ -242,7 +252,7 @@ namespace Daigassou.Input_Midi
 					//catch (TaskCanceledException)
 					//{
 					//}//不太好，感觉很卡
-					List<Task> lt = new List<Task>();
+					 //List<Task> lt = new List<Task>();
 					NoteProcess(Package, ct);//不等了
 					StringBuilder sb = new StringBuilder();
 					foreach (var n in Package)
@@ -251,11 +261,11 @@ namespace Daigassou.Input_Midi
 						sb.Append(n.ToString() + "\t");
 					}
 					Debug.WriteLine(sb.ToString());
-					var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss:fff}\t{sb}\r\n");
-					lt.Add(fs.WriteAsync(s, 0, s.Length));
+					//var s = Encoding.UTF8.GetBytes($"{now:HH:mm:ss:fff}\t{sb}\r\n");
+					//lt.Add(fs.WriteAsync(s, 0, s.Length));
 					//什么时候输出？输出后再等延时？另一个线程输出？输出后延时会导致处理变慢吧。
 					Package.Clear();
-					await Task.WhenAll(lt);//将写入文件和操作按键同时处理
+					//await Task.WhenAll(lt);//将写入文件和操作按键同时处理
 				}
 
 			}
@@ -345,7 +355,7 @@ namespace Daigassou.Input_Midi
 		static async Task NoteProcess(List<NEvent> Package, CancellationToken token)
 		{
 			if (Package.Count == 0) return;
-			int minimumInterval = (int)Settings.Default.MinEventMs;
+			int minimumInterval = 4;// (int)Settings.Default.MinEventMs;
 			var batch = Package.OrderBy(x => x.number).ToList();
 			var Release = batch.FindAll(x => x.Velocity == 0);
 			batch = batch.FindAll(x => x.Velocity > Settings.Default.IgnoreVol).ToList();
@@ -376,7 +386,7 @@ namespace Daigassou.Input_Midi
 					{
 						Debug.WriteLine($"{nextKey.MapNumber}已被{Map[nextKey.MapNumber]}按下，先抬起");
 						NoteOff(nextKey.MapNumber);//要抬这个键，自己用Map找对应哪个物理键
-						await Task.Delay(minimumInterval);//不能是0
+						await Task.Delay(minimumInterval);//不能是0，但是尽量短？漏音再说，等待期间无法接受新的输入是问题
 					}
 					ProcessKeyController.GetInstance().PressKeyBoardByPitch(nextKey.MapNumber + 48);
 					var t = nextKey.number;

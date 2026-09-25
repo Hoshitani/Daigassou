@@ -291,7 +291,7 @@ namespace Daigassou.Forms
 					if (k != null)
 					{
 						keyBoxes[Setindex].Text= ProcessKeyController.GetKeyChar(k.Pri).ToString();//我不理解，为什么[表现为0x89，它应该是Keys.Oem4啊。
-						keyConfig[Setindex + 48] = (int)k.Pri;
+						keyConfig[Setindex + 48 ] = (int)k.Pri;
 						Setindex++;
 					}
 				}
@@ -308,7 +308,7 @@ namespace Daigassou.Forms
 				if(k!=null)
 				{
 					keyBoxes[Setindex].Text = ProcessKeyController.GetKeyChar(k.Pri).ToString();//我不理解，为什么[表现为0x89，它应该是Keys.Oem4啊。
-					keyConfig[Setindex + 48] = (int)k.Pri;
+					keyConfig[Setindex -37 + 108] = (int)k.Pri;
 				}
 				Setindex++;
 			}

@@ -26,7 +26,7 @@ namespace Daigassou.Forms
             base.Init();
             uiLine3.ForeColor = Color.FromArgb(255, 113, 128);
             uiLine2.ForeColor = Color.FromArgb(255, 113, 128);
-			Use88.SelectedIndex = DaigassouDX.Controller.ProcessKeyController.Use88;
+			Use88.SelectedIndex = Settings.Default.Use88;
 		}
 
 		public override void Final()
@@ -140,7 +140,7 @@ namespace Daigassou.Forms
 
 		private void Use88_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			Settings.Default.Use88 = DaigassouDX.Controller.ProcessKeyController.Use88 = (byte)Use88.SelectedIndex;
+			Settings.Default.Use88 = (byte)Use88.SelectedIndex;
 			Settings.Default.Save();
 		}
 	}

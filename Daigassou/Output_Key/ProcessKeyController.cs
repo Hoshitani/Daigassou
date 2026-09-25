@@ -15,10 +15,6 @@ namespace DaigassouDX.Controller
     {
         private const int WmKeydown = 0x0100;
         private const int WmKeyup = 0x0101;
-		/// <summary>
-		/// 是否使用88键模式
-		/// </summary>
-		public static byte Use88 = 0;
 
         public static readonly Dictionary<int, int> _initkeymap = new Dictionary<int, int>
         {
@@ -129,7 +125,6 @@ namespace DaigassouDX.Controller
                 {
                     var jsonObject = (Dictionary<int, int>)JsonConvert.DeserializeObject(Settings.Default.KeyBinding, typeof(Dictionary<int, int>));
                     _keymap = jsonObject;
-					Use88 = Settings.Default.Use88;
 				}
                 catch (Exception e)
                 {
@@ -183,7 +178,7 @@ namespace DaigassouDX.Controller
 		/// <returns></returns>
 		public static int PitchExchange(int pitch)
 		{
-			switch (Use88)
+			switch (Settings.Default.Use88)
 			{
 				default:
 				case 0: break;

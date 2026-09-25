@@ -18,10 +18,10 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="MinEventMs" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">20</Value>
+      <Value Profile="(Default)">40</Value>
     </Setting>
     <Setting Name="MinChordMs" Type="System.UInt32" Scope="User">
-      <Value Profile="(Default)">20</Value>
+      <Value Profile="(Default)">50</Value>
     </Setting>
     <Setting Name="NtpServer" Type="System.String" Scope="User">
       <Value Profile="(Default)">ntp3.aliyun.com</Value>
@@ -51,13 +51,13 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="DispartMs" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">50</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="Use88" Type="System.Byte" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="IgnoreVol" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">30</Value>
     </Setting>
   </Settings>
 </SettingsFile>

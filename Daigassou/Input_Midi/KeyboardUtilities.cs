@@ -137,7 +137,7 @@ namespace Daigassou.Input_Midi
 				{
 					var n = number;
 					var h = 0;
-					if (n > 0) h = (int)Math.Ceiling(n / 12f);
+					if (n > 0) h = (int)Math.Ceiling((n+1) / 12f);
 					else n = n + symbols.Length;
 					return $"{symbols[n%12]}{h}";
 				}
@@ -204,10 +204,12 @@ namespace Daigassou.Input_Midi
 						continue;//到底什么情况会上边Read到了下边没Read到啊
 					Package.Add(a);
 					DateTime now = DateTime.Now;
+					CancellationTokenSource cts = new CancellationTokenSource();//一秒后失效 在一秒之内的输出都排队进去
 					while (!ct.IsCancellationRequested)
 					{
 						if (Queue.Reader.TryPeek(out NEvent next))
 						{
+							cts.CancelAfter(Settings.Default.DispartMs);
 							if ((next.dt - a.dt).TotalMilliseconds < Settings.Default.DispartMs)//连续的小于都拼起来？
 							{
 								Package.Add(next);
@@ -215,10 +217,33 @@ namespace Daigassou.Input_Midi
 							}
 							else break;
 						}
-						else break;//没有下一个东西了
+						else
+						{
+							//if (!cts.IsCancellationRequested)
+							//{
+							//	try
+							//	{
+							//		await Task.Delay(Settings.Default.DispartMs / 10,cts.Token);//等10ms看看……这会导致总等待时间不固定？建议改为打包间隔
+
+							//	}
+							//	catch (TaskCanceledException)
+							//	{
+							//		break;
+							//	}
+							//}
+							//else 
+								break;//没有下一个东西了
+						}
 					}
+					//try
+					//{
+					//	await Task.Delay(-1, cts.Token);//这样能稳定Settings.Default.DispartMs后输出
+					//}
+					//catch (TaskCanceledException)
+					//{
+					//}//不太好，感觉很卡
 					List<Task> lt = new List<Task>();
-					lt.Add(NoteProcess(Package, ct));
+					NoteProcess(Package, ct);//不等了
 					StringBuilder sb = new StringBuilder();
 					foreach (var n in Package)
 					{
@@ -313,13 +338,14 @@ namespace Daigassou.Input_Midi
 
             return ret;
         }
+		//DateTime //输出需要的时间。当处理上一批输入时，下一批输入到了，应当立刻终止上一批的输入？保证时效性？
 		/// <summary>
 		/// 用于输出按键，判断力度，去重（映射到同一个键的）
 		/// </summary>
 		static async Task NoteProcess(List<NEvent> Package, CancellationToken token)
 		{
 			if (Package.Count == 0) return;
-			var minimumInterval = 0;// (int)Settings.Default.MinEventMs;//不等了
+			int minimumInterval = (int)Settings.Default.MinEventMs;
 			var batch = Package.OrderBy(x => x.number).ToList();
 			var Release = batch.FindAll(x => x.Velocity == 0);
 			batch = batch.FindAll(x => x.Velocity > Settings.Default.IgnoreVol).ToList();
@@ -327,11 +353,11 @@ namespace Daigassou.Input_Midi
 			var Left = batch.FindAll(x => x.number > batch[0].number && x.number <= batch[0].number + 12);//从最低音开始的一个八度
 			var Right = batch.FindAll(x => x.number > batch[0].number + 12);//超过最低音一个八度的音
 			List<NEvent> queue = new List<NEvent>();
-			if (batch.Count > 0) queue.Add(batch.First());//先弹最低音
-			queue.AddRange(Right);//再弹右手
-			queue.AddRange(Left);//再弹其余的左手
+			//if (batch.Count > 0) queue.Add(batch.First());//先弹最低音
+			//queue.AddRange(Right);//再弹右手
+			//queue.AddRange(Left);//再弹其余的左手
+			queue.AddRange(batch);//还有必要分解吗？感觉从左到右也挺好的，低音先行
 			queue.AddRange(Release);//再处理放开
-			//还有必要分解吗？感觉从左到右也挺好的，低音先行
 
 			bool[] array = new bool[37];//还要注意一个问题：如果queue里有两个键映射到了37键的同一个键，那么应当去掉其中一个。用这个数组记录本次要按下那些键进行去重
 
@@ -350,7 +376,7 @@ namespace Daigassou.Input_Midi
 					{
 						Debug.WriteLine($"{nextKey.MapNumber}已被{Map[nextKey.MapNumber]}按下，先抬起");
 						NoteOff(nextKey.MapNumber);//要抬这个键，自己用Map找对应哪个物理键
-						await Task.Delay(minimumInterval);
+						await Task.Delay(minimumInterval);//不能是0
 					}
 					ProcessKeyController.GetInstance().PressKeyBoardByPitch(nextKey.MapNumber + 48);
 					var t = nextKey.number;

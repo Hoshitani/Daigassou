@@ -63,9 +63,9 @@ namespace Daigassou.Controller
 
         public static Dictionary<string, ushort> opcodeDict = new Dictionary<string, ushort>()
         {
-            {"countDownPacket", 846},//战斗倒计时开始，96大小，[54]是时间长度 0x0343
+            //{"countDownPacket", 846},//战斗倒计时开始，96大小，[54]是时间长度 0x0343
             {"ensembleStopPacket",718 },//合奏模式结束 48大小 0x03cd
-            {"partyStopPacket", 0x0158},
+            //{"partyStopPacket", 0x0158},
             {"ensembleStartPacket",187 },//开始准备小节 88大小，0x32=bpm 0x013E
             {"ensemblePacket", 341},//每个小节的数据 1064大小 0x024C
             {"ensembleConfirmPacket", 186},//合奏准备确认 56大小，0x32=bpm 0x00FA
@@ -84,7 +84,8 @@ namespace Daigassou.Controller
 		846开始战斗倒计时 似乎是countDownPacket 但是96size
 		441取消战斗倒计时 88 size
 		*/
-
+		public bool RecordNetLog = false;
+		public StringBuilder NetLog=new StringBuilder();
 		public bool ensembleProcessFlag = true;
         public bool isUsingEnsembleAssist = false;
         private FFXIVNetworkMonitor monitor = new FFXIVNetworkMonitor();
@@ -182,8 +183,18 @@ namespace Daigassou.Controller
 			//}
 
             ushort opCode = res.header.MessageType;
-           
-            if (isUsingEnsembleAssist)
+			if (RecordNetLog)
+			{
+				NetLog.Append($"{DateTime.Now.ToString("HH:mm:ss.fff")}\t{opCode}\t{res.data.Length}\t");
+				foreach (var a in res.data)
+				{
+					NetLog.Append(a).Append(' ');
+				}
+				NetLog.AppendLine();
+			}
+
+
+			if (isUsingEnsembleAssist)
             {
                 if (opCode == opcodeDict["ensembleStartPacket"] ) //ensemble start
                 {
@@ -211,31 +222,31 @@ namespace Daigassou.Controller
                     Play?.Invoke(this, new PlayEvent(PlayEvent.playmode.STOP, 0, " "));
                 }
             }
-            else
-            {
-                if (opCode == opcodeDict["countDownPacket"]) //小队倒计时
-                {
-                    var countDownTime = res.data[38];
-                    var unixTime = BitConverter.ToUInt32(res.data, 24);
-                    var nameBytes = new byte[18];
-                    Array.Copy(res.data, 43, nameBytes, 0, 18);
-                    var name = Encoding.UTF8.GetString(nameBytes) ?? "";
+            //else
+            //{
+            //    if (opCode == opcodeDict["countDownPacket"]) //小队倒计时
+            //    {
+            //        var countDownTime = res.data[38];
+            //        var unixTime = BitConverter.ToUInt32(res.data, 24);
+            //        var nameBytes = new byte[18];
+            //        Array.Copy(res.data, 43, nameBytes, 0, 18);
+            //        var name = Encoding.UTF8.GetString(nameBytes) ?? "";
 
-                    Play?.Invoke(
-                        this,
-                        new PlayEvent(PlayEvent.playmode.COUNDOWN_TIMER_START, countDownTime*1000, name)
-                    );
-                }
+            //        Play?.Invoke(
+            //            this,
+            //            new PlayEvent(PlayEvent.playmode.COUNDOWN_TIMER_START, countDownTime*1000, name)
+            //        );
+            //    }
 
-                if (
-                    opCode == opcodeDict["partyStopPacket"]
-                     )
-                 //Stop
-                {
-                    Play?.Invoke(this, new PlayEvent(PlayEvent.playmode.STOP, 0, " "));
-                }
+            //    if (
+            //        opCode == opcodeDict["partyStopPacket"]
+            //         )
+            //     //Stop
+            //    {
+            //        Play?.Invoke(this, new PlayEvent(PlayEvent.playmode.STOP, 0, " "));
+            //    }
 
-            }
+            //}
 
 
 

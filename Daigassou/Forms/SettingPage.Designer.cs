@@ -131,6 +131,7 @@
 			this.tbNTPServerAddr.ButtonRectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(152)))), ((int)(((byte)(138)))));
 			this.tbNTPServerAddr.ButtonStyleInherited = false;
 			this.tbNTPServerAddr.Cursor = System.Windows.Forms.Cursors.IBeam;
+			this.tbNTPServerAddr.Enabled = false;
 			this.tbNTPServerAddr.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
 			this.tbNTPServerAddr.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.tbNTPServerAddr.Location = new System.Drawing.Point(359, 2);
@@ -151,6 +152,7 @@
 			// 
 			// uiSymbolLabel7
 			// 
+			this.uiSymbolLabel7.Enabled = false;
 			this.uiSymbolLabel7.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.uiSymbolLabel7.Location = new System.Drawing.Point(241, 0);
 			this.uiSymbolLabel7.MinimumSize = new System.Drawing.Size(1, 1);
@@ -167,6 +169,7 @@
 			// swUsingPcap
 			// 
 			this.swUsingPcap.ActiveColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
+			this.swUsingPcap.Enabled = false;
 			this.swUsingPcap.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.swUsingPcap.Location = new System.Drawing.Point(160, 3);
 			this.swUsingPcap.MinimumSize = new System.Drawing.Size(1, 1);
@@ -179,6 +182,7 @@
 			// 
 			// uiSymbolLabel5
 			// 
+			this.uiSymbolLabel5.Enabled = false;
 			this.uiSymbolLabel5.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.uiSymbolLabel5.Location = new System.Drawing.Point(10, 0);
 			this.uiSymbolLabel5.MinimumSize = new System.Drawing.Size(1, 1);
@@ -396,7 +400,7 @@
 			this.label3.AutoSize = true;
 			this.label3.Location = new System.Drawing.Point(47, 65);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(106, 21);
+			this.label3.Size = new System.Drawing.Size(158, 31);
 			this.label3.TabIndex = 42;
 			this.label3.Text = "音符输出间隔";
 			// 
@@ -405,7 +409,7 @@
 			this.label2.AutoSize = true;
 			this.label2.Location = new System.Drawing.Point(47, 91);
 			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(106, 21);
+			this.label2.Size = new System.Drawing.Size(158, 31);
 			this.label2.TabIndex = 42;
 			this.label2.Text = "和弦合并间隔";
 			// 
@@ -414,7 +418,7 @@
 			this.label1.AutoSize = true;
 			this.label1.Location = new System.Drawing.Point(31, 117);
 			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(122, 21);
+			this.label1.Size = new System.Drawing.Size(182, 31);
 			this.label1.TabIndex = 41;
 			this.label1.Text = "应忽略力度按键";
 			// 
@@ -463,9 +467,9 @@
 			this.DispartNud.Step = 5;
 			this.DispartNud.Style = Sunny.UI.UIStyle.Custom;
 			this.DispartNud.TabIndex = 39;
-			this.DispartNud.Text = "50";
+			this.DispartNud.Text = "100";
 			this.DispartNud.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
-			this.DispartNud.Value = 50;
+			this.DispartNud.Value = 100;
 			this.DispartNud.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.DispartNud_ValueChanged);
 			// 
 			// uiPanel4
@@ -648,10 +652,10 @@
 			this.updChordMinMs.Step = 5;
 			this.updChordMinMs.Style = Sunny.UI.UIStyle.Custom;
 			this.updChordMinMs.TabIndex = 31;
-			this.updChordMinMs.Text = "30";
+			this.updChordMinMs.Text = "50";
 			this.updChordMinMs.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
 			this.uiToolTip1.SetToolTip(this.updChordMinMs, "用于自动演奏");
-			this.updChordMinMs.Value = 30;
+			this.updChordMinMs.Value = 50;
 			this.updChordMinMs.ValueChanged += new Sunny.UI.UIIntegerUpDown.OnValueChanged(this.updChordMinMs_ValueChanged);
 			// 
 			// uiLine1

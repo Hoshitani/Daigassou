@@ -75,7 +75,9 @@ namespace Daigassou.Forms
 			tmpBox.Text = ProcessKeyController.GetKeyChar(e.KeyCode).ToString();
 
 			if (index < 37)
+			{
 				keyConfig[index + 48] = (int)e.KeyCode;
+			}
 			else
 				keyConfig[index - 37 + 108] = (int)e.KeyCode;
 			if (index + 1 < keyBoxes.Length) keyBoxes[index + 1].Focus();//焦点跳到下一个。
@@ -143,6 +145,7 @@ namespace Daigassou.Forms
 			ushort size = BitConverter.ToUInt16(header, 1);
 			
 			byte[] dataBytes = br.ReadBytes(size-1);// 读取数据并解密，去掉最后一个 null 字节
+			br.ReadByte();
 			byte[] decrypted = Xor(dataBytes, xorValue);
 			return Encoding.UTF8.GetString(decrypted);
 		}
@@ -161,27 +164,60 @@ namespace Daigassou.Forms
 			/// </summary>
 			public Keys Pri_m;
 			/// <summary>
-			/// 次快捷键
+			/// 次快捷键（手柄的）
 			/// </summary>
-			public Keys Sub;
+			Keys Sub;
 			/// <summary>
-			/// 次快捷键的控制按键（Ctrl、Shift、Alt之类） 但是目前不知道对照关系
+			/// 次快捷键的控制按键……这里猜测是手柄的，固定没有应该
 			/// </summary>
-			public Keys Sub_m;
+			Keys Sub_m;
 			Keys ModifyKey(int i)
 			{
 				Keys k = 0;
+				if (i >= 4) k |= Keys.Alt;
+				if (i % 4 >= 2) k |= Keys.Control;
+				if (i % 2 == 1) k |= Keys.Shift;
 				return k;
 			}
+			static Dictionary<int, Keys> SpecialKeys = new Dictionary<int, Keys>
+			{
+				{130,Keys.Oemplus },
+				{131, Keys.Oemcomma},
+				{132,Keys.OemMinus },
+				{133,Keys.OemPeriod },
+				{134,Keys.Oem2 },
+				{135,Keys.Oem1 },
+				{137,Keys.Oem4 },
+				{138,Keys.Oem5},
+				{139,Keys.Oem6 },
+			};
+			/*
+				游戏配置里的值，需要转换成Keys
+				, 131
+				. 133
+				/ 134
+				; 135
+				' 140
+				[ 137
+				] 139
+				\ 138
+				- 132
+				= 130
+			*/
 			public KeyBind(string func,string basestring)
 			{
 				Function = func;
 				var bss = basestring.Split(',');
 				var keys1 = bss[0].Split('.');
 				var keys2 = bss[1].Split('.');
-				Pri = (Keys)int.Parse(keys1[0],System.Globalization.NumberStyles.HexNumber);
+				var temp = int.Parse(keys1[0], System.Globalization.NumberStyles.HexNumber);
+				if(SpecialKeys.ContainsKey(temp))
+				{
+					Pri = SpecialKeys[temp];
+				}
+				else Pri = (Keys)temp;
 				Pri_m = ModifyKey(int.Parse(keys1[1], System.Globalization.NumberStyles.HexNumber));
-				Sub = (Keys)int.Parse(keys2[0], System.Globalization.NumberStyles.HexNumber);
+				Sub = (Keys)int.Parse(keys2[0], System.Globalization.NumberStyles.HexNumber);//真的是次快捷键吗？弹琴这部分没有配置次快捷键的地方，但是C4~B4的非sharp版就是有次快捷键。似乎是手柄用的。
 				Sub_m=ModifyKey(int.Parse(keys2[1], System.Globalization.NumberStyles.HexNumber));
 			}
 			public override string ToString()
@@ -189,8 +225,22 @@ namespace Daigassou.Forms
 				return $"{Function} {Pri}";
 			}
 		}
+
 		void GetKeyBind(string KeyBindFilePath)
 		{
+			//using (FileStream fs = new FileStream(KeyBindFilePath, FileMode.Open))
+			//using (BinaryReader br = new BinaryReader(fs))
+			//{
+			//	var a = br.ReadBytes(26000);
+			//	var b=Xor(a, 0x73);
+			//	StringBuilder sb = new StringBuilder();
+			//	foreach (var c in b)
+			//		if (c != '\0') sb.Append((char)c);
+			//		else sb.Append("\r\n");
+			//	File.WriteAllText("E:/KeyBind.txt", sb.ToString());
+			//}
+
+
 			List<KeyBind> KeyBinds = new List<KeyBind>();
 			using (FileStream fs = new FileStream(KeyBindFilePath, FileMode.Open))
 			using (BinaryReader br = new BinaryReader(fs))
@@ -204,7 +254,6 @@ namespace Daigassou.Forms
 				}
 				br.ReadInt32();//保留
 				br.ReadByte();//头部结束符
-				int cursor = 0;
 				var now = fs.Position;
 				while (fs.Position < thissize + now)
 				{
@@ -233,27 +282,36 @@ namespace Daigassou.Forms
 			string[] OP = { "C", "C_SHARP", "D", "D_SHARP", "E", "F", "F_SHARP", "G", "G_SHARP", "A", "A_SHARP", "B" };
 			KeyBinds = KeyBinds.FindAll(x => x.Function.StartsWith("PERFORMANCE_MODE"));
 			int Setindex = 0;
-			for (int i = 3; i < 6; i++)
+			for (int i = 3; i <= 6; i++)
 			{
 				for (int j = 0; j < OP.Length; j++)
 				{
 					var op = OP[j].Insert(1, i.ToString());
-					var k = KeyBinds.Find(x => x.Function.EndsWith($"_{op}"));
+					var k = KeyBinds.Find(x => x.Function.EndsWith($"_EX_{op}"));
 					if (k != null)
 					{
-						keyBoxes[Setindex].Text=k.Pri.ToString();
+						keyBoxes[Setindex].Text= ProcessKeyController.GetKeyChar(k.Pri).ToString();//我不理解，为什么[表现为0x89，它应该是Keys.Oem4啊。
 						keyConfig[Setindex + 48] = (int)k.Pri;
 						Setindex++;
 					}
 				}
 			}
 			//另外的几个吉他的对应哪几个Function啊……
-			
+
 			//if (index < 37)
 			//	keyConfig[index + 48] = (int)e.KeyCode;
 			//else
 			//	keyConfig[index - 37 + 108] = (int)e.KeyCode;
-
+			for(int i=0;i<5;i++)
+			{
+				var k = KeyBinds.Find(x => x.Function.EndsWith($"_EX_TONE{i}"));
+				if(k!=null)
+				{
+					keyBoxes[Setindex].Text = ProcessKeyController.GetKeyChar(k.Pri).ToString();//我不理解，为什么[表现为0x89，它应该是Keys.Oem4啊。
+					keyConfig[Setindex + 48] = (int)k.Pri;
+				}
+				Setindex++;
+			}
 		}
 
 		private void SelectDAT_Click(object sender, EventArgs e)
@@ -266,14 +324,14 @@ namespace Daigassou.Forms
 			}
 			else 
 			{
-				dir=Path.GetPathRoot(processList[0].MainModule.FileName);
+				dir=Path.GetDirectoryName(processList[0].MainModule.FileName);
 				dir = Path.Combine(dir, "My Games\\FINAL FANTASY XIV - A Realm Reborn\\");
 				DateTime dt=new DateTime(2000,1,1); 
 
 				var dirs=Directory.GetDirectories(dir);
 				foreach(var d in dirs)
 				{
-					if (Path.GetDirectoryName(d).StartsWith("FFXIV_CHR"))
+					if (Path.GetFileName(d).StartsWith("FFXIV_CHR"))
 					{
 						string s= Path.Combine(d, "KEYBIND.DAT");
 						FileInfo fi = new FileInfo(s);
@@ -293,13 +351,15 @@ namespace Daigassou.Forms
 			};
 			if (!string.IsNullOrEmpty(dir))
 			{
-				of.InitialDirectory = Path.GetPathRoot(dir);
+				of.InitialDirectory = Path.GetDirectoryName(dir);
 				of.FileName = dir;
 			}
-			of.ShowDialog();
-			if (of.FileName.Length == 0) return;
-			GetKeyBind(of.FileName);
-			MessageBox.Show(this, "完成");
+			if (of.ShowDialog() == DialogResult.OK)
+			{
+				if (of.FileName.Length == 0) return;
+				GetKeyBind(of.FileName);
+				MessageBox.Show(this, "完成");
+			}
 		}
 	}
 }
@@ -351,9 +411,9 @@ PERFORMANCE_MODE_EX_C4_SHARP 39.00 00.00
 PERFORMANCE_MODE_EX_D4 4F.00 A7.00
 PERFORMANCE_MODE_EX_D4_SHARP 30.00 00.00
 PERFORMANCE_MODE_EX_E4 50.00 AA.00
-PERFORMANCE_MODE_EX_F4 89.00 A8.00
+PERFORMANCE_MODE_EX_F4 89.00 A8.00//0x89 是Keys.Oem4 [，很怪。 找一下常规按键的映射吧
 PERFORMANCE_MODE_EX_F4_SHARP 82.00 00.00
-PERFORMANCE_MODE_EX_G4 8B.00 AD.00
+PERFORMANCE_MODE_EX_G4 8B.00 AD.00// ]
 PERFORMANCE_MODE_EX_G4_SHARP 41.00 00.00
 PERFORMANCE_MODE_EX_A4 5A.00 AB.00
 PERFORMANCE_MODE_EX_A4_SHARP 53.00 00.00

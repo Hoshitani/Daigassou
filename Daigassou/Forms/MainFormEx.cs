@@ -55,7 +55,7 @@ namespace Daigassou.Forms
 
             checkFileNameChanged();
             
-            Utils.Utils.CheckForUpdate(AutoUpdaterOnParseUpdateInfoEvent);
+            //Utils.Utils.CheckForUpdate(AutoUpdaterOnParseUpdateInfoEvent);//不用检查更新了，因为网站无法访问
             
             
             toolStripStatusLabel1.Text = "当前版本： "+System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();

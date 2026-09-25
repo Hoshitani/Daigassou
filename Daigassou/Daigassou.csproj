@@ -93,7 +93,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-  <PackageReference Include="Machina.FFXIV" Version="2.4.7.9" />
+    <PackageReference Include="Machina.FFXIV" Version="2.4.7.9" />
     <Reference Include="HtmlRenderer">
       <HintPath>Reference\HtmlRenderer.dll</HintPath>
     </Reference>

@@ -43,26 +43,27 @@
 			this.lblMidiKey = new Sunny.UI.UILabel();
 			this.tbMidiKey = new Sunny.UI.UITrackBar();
 			this.uiPanel1 = new Sunny.UI.UIPanel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.Use88 = new System.Windows.Forms.ComboBox();
 			this.uiLight1 = new Sunny.UI.UILight();
 			this.tbKeyTest = new Sunny.UI.UITextBox();
 			this.cbInputDevice = new Sunny.UI.UIComboBox();
 			this.uiToolTip1 = new Sunny.UI.UIToolTip(this.components);
-			this.Use88 = new System.Windows.Forms.ComboBox();
-			this.label1 = new System.Windows.Forms.Label();
+			this.PrintDeviceInputLog = new System.Windows.Forms.Button();
 			this.uiPanel3.SuspendLayout();
 			this.uiPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// uiLinkLabel1
 			// 
-			this.uiLinkLabel1.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(155)))), ((int)(((byte)(40)))));
+			this.uiLinkLabel1.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiLinkLabel1.Font = new System.Drawing.Font("微软雅黑", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.uiLinkLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
 			this.uiLinkLabel1.LinkBehavior = System.Windows.Forms.LinkBehavior.AlwaysUnderline;
-			this.uiLinkLabel1.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiLinkLabel1.Location = new System.Drawing.Point(438, 139);
 			this.uiLinkLabel1.Name = "uiLinkLabel1";
 			this.uiLinkLabel1.Size = new System.Drawing.Size(100, 23);
-			this.uiLinkLabel1.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiLinkLabel1.Style = Sunny.UI.UIStyle.Custom;
 			this.uiLinkLabel1.TabIndex = 35;
 			this.uiLinkLabel1.TabStop = true;
 			this.uiLinkLabel1.Text = "视频教程";
@@ -77,7 +78,7 @@
 			this.uiSymbolLabel3.Name = "uiSymbolLabel3";
 			this.uiSymbolLabel3.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
 			this.uiSymbolLabel3.Size = new System.Drawing.Size(103, 35);
-			this.uiSymbolLabel3.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiSymbolLabel3.Style = Sunny.UI.UIStyle.Custom;
 			this.uiSymbolLabel3.Symbol = 361724;
 			this.uiSymbolLabel3.SymbolSize = 26;
 			this.uiSymbolLabel3.TabIndex = 33;
@@ -85,32 +86,34 @@
 			// 
 			// uiLine3
 			// 
+			this.uiLine3.BackColor = System.Drawing.Color.Transparent;
 			this.uiLine3.Dock = System.Windows.Forms.DockStyle.Top;
-			this.uiLine3.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
 			this.uiLine3.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.uiLine3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
 			this.uiLine3.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiLine3.LineColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
 			this.uiLine3.Location = new System.Drawing.Point(0, 0);
 			this.uiLine3.MinimumSize = new System.Drawing.Size(1, 1);
 			this.uiLine3.Name = "uiLine3";
 			this.uiLine3.Size = new System.Drawing.Size(510, 29);
-			this.uiLine3.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiLine3.Style = Sunny.UI.UIStyle.Custom;
 			this.uiLine3.TabIndex = 44;
 			this.uiLine3.Text = "选择Midi设备";
 			this.uiLine3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
 			// uiLine2
 			// 
+			this.uiLine2.BackColor = System.Drawing.Color.Transparent;
 			this.uiLine2.Dock = System.Windows.Forms.DockStyle.Top;
-			this.uiLine2.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
 			this.uiLine2.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.uiLine2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
 			this.uiLine2.LineColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiLine2.LineColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
 			this.uiLine2.Location = new System.Drawing.Point(0, 152);
 			this.uiLine2.MinimumSize = new System.Drawing.Size(1, 1);
 			this.uiLine2.Name = "uiLine2";
 			this.uiLine2.Size = new System.Drawing.Size(510, 26);
-			this.uiLine2.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiLine2.Style = Sunny.UI.UIStyle.Custom;
 			this.uiLine2.TabIndex = 41;
 			this.uiLine2.Text = "设备参数调整";
 			this.uiLine2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -123,7 +126,7 @@
 			this.uiSymbolLabel5.Name = "uiSymbolLabel5";
 			this.uiSymbolLabel5.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
 			this.uiSymbolLabel5.Size = new System.Drawing.Size(103, 35);
-			this.uiSymbolLabel5.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiSymbolLabel5.Style = Sunny.UI.UIStyle.Custom;
 			this.uiSymbolLabel5.Symbol = 362263;
 			this.uiSymbolLabel5.SymbolSize = 26;
 			this.uiSymbolLabel5.TabIndex = 33;
@@ -138,6 +141,7 @@
 			this.btnConnect.FillPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(152)))), ((int)(((byte)(138)))));
 			this.btnConnect.FillSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(152)))), ((int)(((byte)(138)))));
 			this.btnConnect.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.btnConnect.LightColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
 			this.btnConnect.Location = new System.Drawing.Point(400, 6);
 			this.btnConnect.MinimumSize = new System.Drawing.Size(1, 1);
 			this.btnConnect.Name = "btnConnect";
@@ -146,7 +150,7 @@
 			this.btnConnect.RectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(152)))), ((int)(((byte)(138)))));
 			this.btnConnect.RectSelectedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(152)))), ((int)(((byte)(138)))));
 			this.btnConnect.Size = new System.Drawing.Size(84, 29);
-			this.btnConnect.Style = Sunny.UI.UIStyle.Colorful;
+			this.btnConnect.Style = Sunny.UI.UIStyle.Custom;
 			this.btnConnect.TabIndex = 34;
 			this.btnConnect.Text = "连接";
 			this.btnConnect.TipsFont = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -173,7 +177,7 @@
 			this.uiPanel3.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiPanel3.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
 			this.uiPanel3.Size = new System.Drawing.Size(510, 172);
-			this.uiPanel3.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiPanel3.Style = Sunny.UI.UIStyle.Custom;
 			this.uiPanel3.TabIndex = 45;
 			this.uiPanel3.Text = null;
 			this.uiPanel3.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
@@ -192,7 +196,8 @@
 			this.cbTVkeyboard.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
 			this.cbTVkeyboard.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.cbTVkeyboard.Size = new System.Drawing.Size(254, 29);
-			this.cbTVkeyboard.Style = Sunny.UI.UIStyle.Colorful;
+			this.cbTVkeyboard.Style = Sunny.UI.UIStyle.Custom;
+			this.cbTVkeyboard.SymbolSize = 24;
 			this.cbTVkeyboard.TabIndex = 43;
 			this.cbTVkeyboard.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
 			this.cbTVkeyboard.Watermark = "下拉选择链接的输出设备";
@@ -205,7 +210,7 @@
 			this.uiSplit.MinimumSize = new System.Drawing.Size(1, 1);
 			this.uiSplit.Name = "uiSplit";
 			this.uiSplit.Size = new System.Drawing.Size(75, 25);
-			this.uiSplit.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiSplit.Style = Sunny.UI.UIStyle.Custom;
 			this.uiSplit.TabIndex = 42;
 			this.uiSplit.Text = "uiSwitch1";
 			this.uiSplit.ValueChanged += new Sunny.UI.UISwitch.OnValueChanged(this.uiSplit_ValueChanged);
@@ -218,7 +223,7 @@
 			this.uiSymbolLabel1.Name = "uiSymbolLabel1";
 			this.uiSymbolLabel1.Padding = new System.Windows.Forms.Padding(30, 0, 0, 0);
 			this.uiSymbolLabel1.Size = new System.Drawing.Size(103, 35);
-			this.uiSymbolLabel1.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiSymbolLabel1.Style = Sunny.UI.UIStyle.Custom;
 			this.uiSymbolLabel1.Symbol = 361633;
 			this.uiSymbolLabel1.SymbolOffset = new System.Drawing.Point(-2, 0);
 			this.uiSymbolLabel1.SymbolSize = 26;
@@ -229,10 +234,11 @@
 			// 
 			this.uiLabel1.BackColor = System.Drawing.Color.Transparent;
 			this.uiLabel1.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.uiLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
 			this.uiLabel1.Location = new System.Drawing.Point(3, 79);
 			this.uiLabel1.Name = "uiLabel1";
 			this.uiLabel1.Size = new System.Drawing.Size(439, 93);
-			this.uiLabel1.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiLabel1.Style = Sunny.UI.UIStyle.Custom;
 			this.uiLabel1.TabIndex = 40;
 			this.uiLabel1.Text = "*程序默认会将三个八度的Midi键盘按键转成游戏按键\r\n调试方法：调整起始范围，间歇按下Midi键盘上欲使用范围的最低音\r\n               当提示修" +
     "正后Key = 48的时候，调试完成\r\n注意事项：游戏按键到发音自带200ms左右延迟，目前无法解决。\r\n               *本地发声功能预计春分实" +
@@ -243,10 +249,11 @@
 			// 
 			this.lblMidiKey.BackColor = System.Drawing.Color.Transparent;
 			this.lblMidiKey.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+			this.lblMidiKey.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(48)))), ((int)(((byte)(48)))), ((int)(((byte)(48)))));
 			this.lblMidiKey.Location = new System.Drawing.Point(228, 25);
 			this.lblMidiKey.Name = "lblMidiKey";
 			this.lblMidiKey.Size = new System.Drawing.Size(138, 17);
-			this.lblMidiKey.Style = Sunny.UI.UIStyle.Colorful;
+			this.lblMidiKey.Style = Sunny.UI.UIStyle.Custom;
 			this.lblMidiKey.TabIndex = 39;
 			this.lblMidiKey.Text = "键盘起始Key +48";
 			this.lblMidiKey.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -262,13 +269,14 @@
 			this.tbMidiKey.Name = "tbMidiKey";
 			this.tbMidiKey.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.tbMidiKey.Size = new System.Drawing.Size(345, 29);
-			this.tbMidiKey.Style = Sunny.UI.UIStyle.Colorful;
+			this.tbMidiKey.Style = Sunny.UI.UIStyle.Custom;
 			this.tbMidiKey.TabIndex = 36;
 			this.tbMidiKey.Value = 4;
 			this.tbMidiKey.ValueChanged += new System.EventHandler(this.tbMidiKey_ValueChanged);
 			// 
 			// uiPanel1
 			// 
+			this.uiPanel1.Controls.Add(this.PrintDeviceInputLog);
 			this.uiPanel1.Controls.Add(this.label1);
 			this.uiPanel1.Controls.Add(this.Use88);
 			this.uiPanel1.Controls.Add(this.uiLight1);
@@ -287,10 +295,33 @@
 			this.uiPanel1.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.uiPanel1.RectSides = System.Windows.Forms.ToolStripStatusLabelBorderSides.None;
 			this.uiPanel1.Size = new System.Drawing.Size(510, 123);
-			this.uiPanel1.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiPanel1.Style = Sunny.UI.UIStyle.Custom;
 			this.uiPanel1.TabIndex = 42;
 			this.uiPanel1.Text = null;
 			this.uiPanel1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(44, 88);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(76, 21);
+			this.label1.TabIndex = 48;
+			this.label1.Text = "88键配置";
+			// 
+			// Use88
+			// 
+			this.Use88.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.Use88.FormattingEnabled = true;
+			this.Use88.Items.AddRange(new object[] {
+            "不使用",
+            "将音域外映射到最近的八度",
+            "将音域外的两个八度增减16度"});
+			this.Use88.Location = new System.Drawing.Point(139, 88);
+			this.Use88.Name = "Use88";
+			this.Use88.Size = new System.Drawing.Size(248, 29);
+			this.Use88.TabIndex = 47;
+			this.Use88.SelectedIndexChanged += new System.EventHandler(this.Use88_SelectedIndexChanged);
 			// 
 			// uiLight1
 			// 
@@ -301,7 +332,7 @@
 			this.uiLight1.Radius = 25;
 			this.uiLight1.Size = new System.Drawing.Size(28, 25);
 			this.uiLight1.State = Sunny.UI.UILightState.Off;
-			this.uiLight1.Style = Sunny.UI.UIStyle.Colorful;
+			this.uiLight1.Style = Sunny.UI.UIStyle.Custom;
 			this.uiLight1.TabIndex = 37;
 			this.uiLight1.Text = "uiLight1";
 			// 
@@ -313,6 +344,7 @@
 			this.tbKeyTest.ButtonRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.tbKeyTest.ButtonRectHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(203)))), ((int)(((byte)(189)))));
 			this.tbKeyTest.ButtonRectPressColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(152)))), ((int)(((byte)(138)))));
+			this.tbKeyTest.ButtonStyleInherited = false;
 			this.tbKeyTest.Cursor = System.Windows.Forms.Cursors.IBeam;
 			this.tbKeyTest.FillColor2 = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
 			this.tbKeyTest.Font = new System.Drawing.Font("微软雅黑", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
@@ -320,12 +352,14 @@
 			this.tbKeyTest.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
 			this.tbKeyTest.MinimumSize = new System.Drawing.Size(1, 16);
 			this.tbKeyTest.Name = "tbKeyTest";
+			this.tbKeyTest.Padding = new System.Windows.Forms.Padding(5);
 			this.tbKeyTest.ReadOnly = true;
 			this.tbKeyTest.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.tbKeyTest.ScrollBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
+			this.tbKeyTest.ScrollBarStyleInherited = false;
 			this.tbKeyTest.ShowText = false;
 			this.tbKeyTest.Size = new System.Drawing.Size(345, 34);
-			this.tbKeyTest.Style = Sunny.UI.UIStyle.Colorful;
+			this.tbKeyTest.Style = Sunny.UI.UIStyle.Custom;
 			this.tbKeyTest.TabIndex = 34;
 			this.tbKeyTest.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
 			this.tbKeyTest.Watermark = "显示按下按键的Key值";
@@ -347,7 +381,8 @@
 			this.cbInputDevice.Padding = new System.Windows.Forms.Padding(0, 0, 30, 2);
 			this.cbInputDevice.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
 			this.cbInputDevice.Size = new System.Drawing.Size(330, 31);
-			this.cbInputDevice.Style = Sunny.UI.UIStyle.Colorful;
+			this.cbInputDevice.Style = Sunny.UI.UIStyle.Custom;
+			this.cbInputDevice.SymbolSize = 24;
 			this.cbInputDevice.TabIndex = 36;
 			this.cbInputDevice.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft;
 			this.cbInputDevice.Watermark = "Midi输入设备";
@@ -358,32 +393,21 @@
 			this.uiToolTip1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(239)))), ((int)(((byte)(239)))));
 			this.uiToolTip1.OwnerDraw = true;
 			// 
-			// Use88
+			// PrintDeviceInputLog
 			// 
-			this.Use88.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.Use88.FormattingEnabled = true;
-			this.Use88.Items.AddRange(new object[] {
-            "不使用",
-            "将音域外映射到最近的八度",
-            "将音域外的两个八度增减16度"});
-			this.Use88.Location = new System.Drawing.Point(139, 88);
-			this.Use88.Name = "Use88";
-			this.Use88.Size = new System.Drawing.Size(248, 29);
-			this.Use88.TabIndex = 47;
-			this.Use88.SelectedIndexChanged += new System.EventHandler(this.Use88_SelectedIndexChanged);
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(44, 88);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(76, 21);
-			this.label1.TabIndex = 48;
-			this.label1.Text = "88键配置";
+			this.PrintDeviceInputLog.AutoSize = true;
+			this.PrintDeviceInputLog.Location = new System.Drawing.Point(393, 90);
+			this.PrintDeviceInputLog.Name = "PrintDeviceInputLog";
+			this.PrintDeviceInputLog.Size = new System.Drawing.Size(116, 31);
+			this.PrintDeviceInputLog.TabIndex = 49;
+			this.PrintDeviceInputLog.Text = "导出按键记录";
+			this.PrintDeviceInputLog.UseVisualStyleBackColor = true;
+			this.PrintDeviceInputLog.Click += new System.EventHandler(this.PrintDeviceInputLog_Click);
 			// 
 			// MidiDevicePage
 			// 
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+			this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(251)))), ((int)(((byte)(250)))));
 			this.ClientSize = new System.Drawing.Size(510, 350);
 			this.ControlBoxFillHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(203)))), ((int)(((byte)(189)))));
 			this.Controls.Add(this.uiPanel3);
@@ -392,7 +416,7 @@
 			this.Controls.Add(this.uiLine3);
 			this.Name = "MidiDevicePage";
 			this.RectColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(172)))));
-			this.Style = Sunny.UI.UIStyle.Colorful;
+			this.Style = Sunny.UI.UIStyle.Custom;
 			this.Text = "MidiPreviewPage";
 			this.Load += new System.EventHandler(this.MidiDevicePage_Load);
 			this.Enter += new System.EventHandler(this.MidiDevicePage_Enter);
@@ -425,5 +449,6 @@
         private Sunny.UI.UIComboTreeView cbTVkeyboard;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ComboBox Use88;
+		private System.Windows.Forms.Button PrintDeviceInputLog;
 	}
 }

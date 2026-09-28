@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using Daigassou.Input_Midi;
 using Daigassou.Properties;
@@ -143,5 +145,20 @@ namespace Daigassou.Forms
 			Settings.Default.Use88 = (byte)Use88.SelectedIndex;
 			Settings.Default.Save();
 		}
+
+		private void PrintDeviceInputLog_Click(object sender, EventArgs e)
+		{
+			StringBuilder sb = new StringBuilder();
+            foreach (var a in KeyboardUtilities.Dealed)
+            {
+                sb.AppendLine($"{a.dt.ToString("HH:mm:ss.fff")} {a.Symbol} {a.Velocity}");
+            }
+			SaveFileDialog sf = new SaveFileDialog() { DefaultExt = ".txt", Filter = "文本文件|*.txt", Title = "保存按键日志到" };
+			if (sf.ShowDialog() == DialogResult.OK)
+			{
+				File.WriteAllText(sf.FileName, sb.ToString());
+				MessageBox.Show(this, "已保存按键日志");
+			}
+		}//也许之后哪一天可以直接把这个生成midi文件
 	}
 }

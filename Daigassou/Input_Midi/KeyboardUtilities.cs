@@ -71,7 +71,7 @@ namespace Daigassou.Input_Midi
             }
         }
 		//其实也没必要打包，检查一个键和下一个键的时间间距，判断要不要一块儿处理就好了。用Queue存起来还是比较好的
-		class NEvent
+		public class NEvent
 		{
 			///// <summary>
 			///// 距离上一个事件的时长
@@ -160,7 +160,7 @@ namespace Daigassou.Input_Midi
 			}
 		}
 		static Channel<NEvent> Queue = Channel.CreateUnbounded<NEvent>();
-		static ConcurrentQueue<NEvent> Dealed = new ConcurrentQueue<NEvent>();
+		public static ConcurrentQueue<NEvent> Dealed = new ConcurrentQueue<NEvent>();
 		/*
 			using (var inputDevice = InputDevice.GetByName("Input MIDI device"))
 			{

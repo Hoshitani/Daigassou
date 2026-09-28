@@ -46,11 +46,12 @@
 			this.uiPanel3 = new Sunny.UI.UIPanel();
 			this.uiSymbolLabel4 = new Sunny.UI.UISymbolLabel();
 			this.uiRadioButtonGroup1 = new Sunny.UI.UIRadioButtonGroup();
+			this.RecordNetLog = new System.Windows.Forms.CheckBox();
 			this.radioBtnGA = new Sunny.UI.UIRadioButton();
 			this.uiSymbolLabel5 = new Sunny.UI.UISymbolLabel();
 			this.uiLabel1 = new Sunny.UI.UILabel();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-			this.RecordNetLog = new System.Windows.Forms.CheckBox();
+			this.ShowOP = new System.Windows.Forms.Button();
 			this.uiPanel1.SuspendLayout();
 			this.uiPanel2.SuspendLayout();
 			this.uiPanel3.SuspendLayout();
@@ -313,6 +314,7 @@
 			// 
 			// uiPanel3
 			// 
+			this.uiPanel3.Controls.Add(this.ShowOP);
 			this.uiPanel3.Controls.Add(this.uiSymbolLabel4);
 			this.uiPanel3.Controls.Add(this.uiRadioButtonGroup1);
 			this.uiPanel3.Controls.Add(this.uiSymbolLabel5);
@@ -368,6 +370,17 @@
 			this.uiRadioButtonGroup1.Text = null;
 			this.uiRadioButtonGroup1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
 			// 
+			// RecordNetLog
+			// 
+			this.RecordNetLog.AutoSize = true;
+			this.RecordNetLog.Location = new System.Drawing.Point(95, 15);
+			this.RecordNetLog.Name = "RecordNetLog";
+			this.RecordNetLog.Size = new System.Drawing.Size(205, 25);
+			this.RecordNetLog.TabIndex = 2;
+			this.RecordNetLog.Text = "记录网络活动（调试用）";
+			this.RecordNetLog.UseVisualStyleBackColor = true;
+			this.RecordNetLog.CheckedChanged += new System.EventHandler(this.RecordNetLog_CheckedChanged);
+			// 
 			// radioBtnGA
 			// 
 			this.radioBtnGA.Checked = true;
@@ -413,16 +426,17 @@
 			// 
 			this.openFileDialog1.FileName = "openFileDialog1";
 			// 
-			// RecordNetLog
+			// ShowOP
 			// 
-			this.RecordNetLog.AutoSize = true;
-			this.RecordNetLog.Location = new System.Drawing.Point(95, 15);
-			this.RecordNetLog.Name = "RecordNetLog";
-			this.RecordNetLog.Size = new System.Drawing.Size(205, 25);
-			this.RecordNetLog.TabIndex = 2;
-			this.RecordNetLog.Text = "记录网络活动（调试用）";
-			this.RecordNetLog.UseVisualStyleBackColor = true;
-			this.RecordNetLog.CheckedChanged += new System.EventHandler(this.RecordNetLog_CheckedChanged);
+			this.ShowOP.AutoSize = true;
+			this.ShowOP.Font = new System.Drawing.Font("微软雅黑", 9F);
+			this.ShowOP.Location = new System.Drawing.Point(21, 82);
+			this.ShowOP.Name = "ShowOP";
+			this.ShowOP.Size = new System.Drawing.Size(78, 27);
+			this.ShowOP.TabIndex = 43;
+			this.ShowOP.Text = "当前特征码";
+			this.ShowOP.UseVisualStyleBackColor = true;
+			this.ShowOP.Click += new System.EventHandler(this.ShowOP_Click);
 			// 
 			// MuiltiPlayForm
 			// 
@@ -443,6 +457,7 @@
 			this.uiPanel1.ResumeLayout(false);
 			this.uiPanel2.ResumeLayout(false);
 			this.uiPanel3.ResumeLayout(false);
+			this.uiPanel3.PerformLayout();
 			this.uiRadioButtonGroup1.ResumeLayout(false);
 			this.uiRadioButtonGroup1.PerformLayout();
 			this.ResumeLayout(false);
@@ -474,5 +489,6 @@
         private Sunny.UI.UILabel uiLabel1;
         private Sunny.UI.UISymbolLabel uiSymbolLabel4;
 		private System.Windows.Forms.CheckBox RecordNetLog;
+		private System.Windows.Forms.Button ShowOP;
 	}
 }

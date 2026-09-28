@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using System.Windows.Forms;
 using Daigassou.Controller;
 using Daigassou.Properties;
@@ -187,6 +188,16 @@ namespace Daigassou.Forms
 					MessageBox.Show(this, "已保存网络日志，可发送给开发者查看");
 				}
 			}
+		}
+
+		private void ShowOP_Click(object sender, EventArgs e)
+		{
+			StringBuilder sb = new StringBuilder();
+			foreach(var a in NetworkParser.opcodeDict)
+			{
+				sb.AppendLine($"{a.Key}：{a.Value}");
+			}
+			MessageBox.Show(this, sb.ToString(), "特征码");
 		}
 	}
 }

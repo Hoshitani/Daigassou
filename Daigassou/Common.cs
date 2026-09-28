@@ -130,11 +130,11 @@ namespace Daigassou.Utils
             AutoUpdater.RemindLaterAt = 12;
 
 
-#if DEBUG
-            AutoUpdater.Start("https://up.xiv.pub/version_test.json");
-#else
-            AutoUpdater.Start("https://up.xiv.pub/version.json");
-#endif
+//#if DEBUG
+//            AutoUpdater.Start("https://up.xiv.pub/version_test.json");
+//#else
+//            AutoUpdater.Start("https://up.xiv.pub/version.json");
+//#endif
         }
 
 

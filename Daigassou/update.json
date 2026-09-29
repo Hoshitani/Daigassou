@@ -1,6 +1,6 @@
 {
-	"version": "3.0.3.3",
-	"url": "https://github.com/Hoshitani/Daigassou/releases/download/v3.0.3.3/Daigassou.exe",
+	"version": "3.0.3.4",
+	"url": "https://github.com/Hoshitani/Daigassou/releases/tag/v3.0.3.4",
 	"opcode": {
 		"ensembleStopPacket": 718,
 		"ensembleStartPacket": 187,

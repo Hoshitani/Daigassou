@@ -74,25 +74,37 @@ namespace Daigassou.Forms
 			NetworkParser.opcodeDict["ensembleStopPacket"] = json["opcode"]["ensembleStopPacket"].Value<ushort>(); 
 			NetworkParser.opcodeDict["ensembleConfirmPacket"] = json["opcode"]["ensembleConfirmPacket"].Value<ushort>();
 			NetworkParser.opcodeDict["ensemblePacket"] = json["opcode"]["ensemblePacket"].Value<ushort>();
-			NetworkParser.opcodeDict["InstruSendingPacket"] = json["opcode"]["InstruSendingPacket"].Value<ushort>(); 
+			NetworkParser.opcodeDict["InstruSendingPacket"] = json["opcode"]["InstruSendingPacket"].Value<ushort>();
 			//#endif
-			args.UpdateInfo = new UpdateInfoEventArgs
-            {
-                CurrentVersion = json["version"].Value<string>(),
-                //ChangelogURL = json.changelog,
-                DownloadURL = json["url"].Value<string>(),
-                //Mandatory = new Mandatory
-                //{
-                //    Value = json.mandatory.value,
-                //    UpdateMode = json.mandatory.mode,
-                //    MinimumVersion = json.mandatory.minVersion
-                //},
-                //CheckSum = new CheckSum
-                //{
-                //    Value = json.checksum.value,
-                //    HashingAlgorithm = json.checksum.hashingAlgorithm
-                //}
-            };
+			//args.UpdateInfo = new UpdateInfoEventArgs
+			//         {
+			//             CurrentVersion = json["version"].Value<string>(),
+			//             //ChangelogURL = json.changelog,
+			//             DownloadURL = json["url"].Value<string>(),
+			//             //Mandatory = new Mandatory
+			//             //{
+			//             //    Value = json.mandatory.value,
+			//             //    UpdateMode = json.mandatory.mode,
+			//             //    MinimumVersion = json.mandatory.minVersion
+			//             //},
+			//             //CheckSum = new CheckSum
+			//             //{
+			//             //    Value = json.checksum.value,
+			//             //    HashingAlgorithm = json.checksum.hashingAlgorithm
+			//             //}
+			//         };
+			//不配置应该就不会应用AutoUpdater的了吧……这东西在访问冲突报错阿=_=
+			var AimVersion = new Version(json["version"].Value<string>());
+			var thisVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+			if (AimVersion > thisVersion)
+			{
+				DialogResult dr=DialogResult.None;
+				Invoke(new Action(() => dr = MessageBox.Show(this, "有新版本，是否前往下载？", "更新",MessageBoxButtons.YesNo)));
+				if (dr == DialogResult.Yes)
+				{
+					System.Diagnostics.Process.Start(json["url"].Value<string>());
+				}
+			}
             toolStripStatusLabel3.Text = "|更新检查完毕";
         }
         private void checkFileNameChanged()
@@ -194,14 +206,11 @@ namespace Daigassou.Forms
 
         }
 
-        private void MainFormEx_Load(object sender, EventArgs e)
-        {
-
-                HotkeyUtils.GetInstance(this).InitHotKey();
-                HotkeyUtils.GetInstance(this).HotKeyHandler += HotkeyUtils_HotKeyPressed;
-         
-
-        }
+		private async void MainFormEx_Load(object sender, EventArgs e)
+		{
+			HotkeyUtils.GetInstance(this).InitHotKey();
+			HotkeyUtils.GetInstance(this).HotKeyHandler += HotkeyUtils_HotKeyPressed;
+		}
     }
 }
 /*

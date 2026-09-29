@@ -128,7 +128,7 @@ namespace Daigassou.Utils
             AutoUpdater.LetUserSelectRemindLater = false;
             AutoUpdater.RemindLaterTimeSpan = RemindLaterFormat.Hours;
             AutoUpdater.RemindLaterAt = 12;
-			AutoUpdater.Start("https://up.xiv.pub/version_test.json");
+			AutoUpdater.Start("https://raw.githubusercontent.com/Hoshitani/Daigassou/refs/heads/master/Daigassou/update.json");
 
 			//#if DEBUG
 			//            AutoUpdater.Start("https://up.xiv.pub/version_test.json");

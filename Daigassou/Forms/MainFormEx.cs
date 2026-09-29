@@ -68,30 +68,30 @@ namespace Daigassou.Forms
         private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
             dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
-//#if !DEBUG 
-            
-//            NetworkParser.opcodeDict["countDownPacket"] = json.opcode.countDownPacket;
-//            NetworkParser.opcodeDict["ensembleStopPacket"] = json.opcode.ensembleStopPacket;
-//            NetworkParser.opcodeDict["partyStopPacket"] = json.opcode.partyStopPacket;
-//            NetworkParser.opcodeDict["ensembleStartPacket"] = json.opcode.ensembleStartPacket;
-//            NetworkParser.opcodeDict["InstruSendingPacket"] = json.opcode.InstruSendingPacket;
-//#endif
-            args.UpdateInfo = new UpdateInfoEventArgs
+			//#if !DEBUG 
+
+			NetworkParser.opcodeDict["countDownPacket"] = json.opcode.countDownPacket;
+			NetworkParser.opcodeDict["ensembleStopPacket"] = json.opcode.ensembleStopPacket;
+			NetworkParser.opcodeDict["partyStopPacket"] = json.opcode.partyStopPacket;
+			NetworkParser.opcodeDict["ensembleStartPacket"] = json.opcode.ensembleStartPacket;
+			NetworkParser.opcodeDict["InstruSendingPacket"] = json.opcode.InstruSendingPacket;
+			//#endif
+			args.UpdateInfo = new UpdateInfoEventArgs
             {
                 CurrentVersion = json.version,
-                ChangelogURL = json.changelog,
+                //ChangelogURL = json.changelog,
                 DownloadURL = json.url,
-                Mandatory = new Mandatory
-                {
-                    Value = json.mandatory.value,
-                    UpdateMode = json.mandatory.mode,
-                    MinimumVersion = json.mandatory.minVersion
-                },
-                CheckSum = new CheckSum
-                {
-                    Value = json.checksum.value,
-                    HashingAlgorithm = json.checksum.hashingAlgorithm
-                }
+                //Mandatory = new Mandatory
+                //{
+                //    Value = json.mandatory.value,
+                //    UpdateMode = json.mandatory.mode,
+                //    MinimumVersion = json.mandatory.minVersion
+                //},
+                //CheckSum = new CheckSum
+                //{
+                //    Value = json.checksum.value,
+                //    HashingAlgorithm = json.checksum.hashingAlgorithm
+                //}
             };
             toolStripStatusLabel3.Text = "|更新检查完毕";
         }

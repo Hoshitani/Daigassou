@@ -67,7 +67,7 @@ namespace Daigassou.Forms
         }
         private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
-            JObject json = JObject.Parse(args.RemoteData);
+			JObject json = JObject.Parse(args.RemoteData);
 			//#if !DEBUG 
 
 			NetworkParser.opcodeDict["ensembleStartPacket"] = json["opcode"]["ensembleStartPacket"].Value<ushort>(); 

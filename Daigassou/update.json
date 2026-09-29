@@ -1,0 +1,9 @@
+{
+	"version": "3.0.3.2",
+	"url": "https://github.com/Hoshitani/Daigassou/releases/download/v3.0.3.2/Daigassou.exe",
+	"ensembleStopPacket": 718,
+	"ensembleStartPacket": 187,
+	"ensemblePacket": 341,
+	"ensembleConfirmPacket": 186,
+	"InstruSendingPacket": 354
+}

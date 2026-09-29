@@ -33,7 +33,8 @@
 			this.label3 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
 			this.label4 = new System.Windows.Forms.Label();
-			this.label5 = new System.Windows.Forms.Label();
+			this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+			this.label6 = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// lblVersion
@@ -66,12 +67,11 @@
 			this.label3.BackColor = System.Drawing.Color.Transparent;
 			this.label3.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
 			this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(75)))), ((int)(((byte)(107)))));
-			this.label3.Location = new System.Drawing.Point(239, 215);
+			this.label3.Location = new System.Drawing.Point(239, 200);
 			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(164, 102);
+			this.label3.Size = new System.Drawing.Size(164, 68);
 			this.label3.TabIndex = 3;
-			this.label3.Text = "程序：黑尾白猫@神意之地\r\n助手：酒酿和歌子@神意之地\r\n\r\n发布：blog.ffxiv.cat\r\nBug反馈裙：720145203\r\n制谱交流裙：3378458" +
-    "18\r\n";
+			this.label3.Text = "程序：黑尾白猫@神意之地\r\n助手：酒酿和歌子@神意之地\r\n\r\nBug反馈裙：720145203";
 			// 
 			// label1
 			// 
@@ -87,23 +87,32 @@
 			this.label4.AutoSize = true;
 			this.label4.BackColor = System.Drawing.Color.Transparent;
 			this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-			this.label4.Location = new System.Drawing.Point(239, 250);
+			this.label4.Location = new System.Drawing.Point(238, 234);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(140, 17);
 			this.label4.TabIndex = 5;
 			this.label4.Text = "两只猫娘是不是很可爱！";
 			this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			// 
-			// label5
+			// linkLabel1
 			// 
-			this.label5.AutoSize = true;
-			this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-			this.label5.Location = new System.Drawing.Point(80, 313);
-			this.label5.Name = "label5";
-			this.label5.Size = new System.Drawing.Size(104, 34);
-			this.label5.TabIndex = 6;
-			this.label5.Text = "时隔两年多才更新\r\n~感谢支持~";
-			this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.linkLabel1.AutoSize = true;
+			this.linkLabel1.Location = new System.Drawing.Point(113, 317);
+			this.linkLabel1.Name = "linkLabel1";
+			this.linkLabel1.Size = new System.Drawing.Size(293, 17);
+			this.linkLabel1.TabIndex = 7;
+			this.linkLabel1.TabStop = true;
+			this.linkLabel1.Text = "https://github.com/Hoshitani/Daigassou/releases";
+			this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+			// 
+			// label6
+			// 
+			this.label6.AutoSize = true;
+			this.label6.Location = new System.Drawing.Point(43, 300);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(360, 17);
+			this.label6.TabIndex = 8;
+			this.label6.Text = "因为原网站无法访问，请前往Github下载最新民间版本（by星谷）";
 			// 
 			// AboutForm
 			// 
@@ -112,7 +121,8 @@
 			this.BackgroundImage = global::Daigassou.Properties.Resources.about2;
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
 			this.ClientSize = new System.Drawing.Size(490, 362);
-			this.Controls.Add(this.label5);
+			this.Controls.Add(this.label6);
+			this.Controls.Add(this.linkLabel1);
 			this.Controls.Add(this.label4);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label2);
@@ -141,6 +151,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label5;
-    }
+		private System.Windows.Forms.LinkLabel linkLabel1;
+		private System.Windows.Forms.Label label6;
+	}
 }

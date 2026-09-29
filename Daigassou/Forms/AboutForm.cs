@@ -92,6 +92,11 @@ namespace Daigassou
 		{
 			cts.Cancel();
 		}
+
+		private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			System.Diagnostics.Process.Start(linkLabel1.Text);
+		}
 		//测试1秒钟的按键次数
 	}
 }

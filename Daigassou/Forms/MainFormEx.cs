@@ -51,14 +51,15 @@ namespace Daigassou.Forms
             uiNavMenu1.SetNodePageIndex(uiNavMenu1.Nodes[3], (int) PageID.SettingPage);
             uiNavMenu1.SetNodePageIndex(uiNavMenu1.Nodes[4], (int) PageID.PreviewPlayPage);
 
-            Utils.Utils.TimeSync();
+            //Utils.Utils.TimeSync();
 
             checkFileNameChanged();
-            
-            //Utils.Utils.CheckForUpdate(AutoUpdaterOnParseUpdateInfoEvent);//不用检查更新了，因为网站无法访问
-            
-            
-            toolStripStatusLabel1.Text = "当前版本： "+System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+			//https://github.com/Hoshitani/Daigassou/releases/download/v3.0.3.2/Daigassou.exe
+
+			Utils.Utils.CheckForUpdate(AutoUpdaterOnParseUpdateInfoEvent);//不用检查更新了，因为网站无法访问
+
+			toolStripStatusLabel1.Text = "当前版本： "+System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             
             

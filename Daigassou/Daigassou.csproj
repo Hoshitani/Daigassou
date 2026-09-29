@@ -93,6 +93,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="EasyUpdate">
+      <Version>1.1.2</Version>
+    </PackageReference>
     <PackageReference Include="Machina.FFXIV" Version="2.4.7.9" />
     <Reference Include="HtmlRenderer">
       <HintPath>Reference\HtmlRenderer.dll</HintPath>
@@ -253,6 +256,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="update.json" />
     <None Include="[大合奏!!Ex]FeatureList.md" />
     <None Include="[大合奏]使用教程.md" />
   </ItemGroup>

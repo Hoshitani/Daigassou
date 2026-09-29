@@ -67,20 +67,20 @@ namespace Daigassou.Forms
         }
         private void AutoUpdaterOnParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
-            dynamic json = JsonConvert.DeserializeObject(args.RemoteData);
+            JObject json = JObject.Parse(args.RemoteData);
 			//#if !DEBUG 
 
-			NetworkParser.opcodeDict["countDownPacket"] = json.opcode.countDownPacket;
-			NetworkParser.opcodeDict["ensembleStopPacket"] = json.opcode.ensembleStopPacket;
-			NetworkParser.opcodeDict["partyStopPacket"] = json.opcode.partyStopPacket;
-			NetworkParser.opcodeDict["ensembleStartPacket"] = json.opcode.ensembleStartPacket;
-			NetworkParser.opcodeDict["InstruSendingPacket"] = json.opcode.InstruSendingPacket;
+			NetworkParser.opcodeDict["ensembleStartPacket"] = json["opcode"]["ensembleStartPacket"].Value<ushort>(); 
+			NetworkParser.opcodeDict["ensembleStopPacket"] = json["opcode"]["ensembleStopPacket"].Value<ushort>(); 
+			NetworkParser.opcodeDict["ensembleConfirmPacket"] = json["opcode"]["ensembleConfirmPacket"].Value<ushort>();
+			NetworkParser.opcodeDict["ensemblePacket"] = json["opcode"]["ensemblePacket"].Value<ushort>();
+			NetworkParser.opcodeDict["InstruSendingPacket"] = json["opcode"]["InstruSendingPacket"].Value<ushort>(); 
 			//#endif
 			args.UpdateInfo = new UpdateInfoEventArgs
             {
-                CurrentVersion = json.version,
+                CurrentVersion = json["version"].Value<string>(),
                 //ChangelogURL = json.changelog,
-                DownloadURL = json.url,
+                DownloadURL = json["url"].Value<string>(),
                 //Mandatory = new Mandatory
                 //{
                 //    Value = json.mandatory.value,
